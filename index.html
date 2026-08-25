@@ -485,19 +485,27 @@ function newPlayer(idx) {
 }
 
 /**
- * 魅力对应收入计算（公式待用户补充）
- * @param {number} conservation 盾轨（保护项目点数）
+ * 魅力对应收入计算
+ * @param {number} conservation 盾轨（保护项目点数，本计算不使用）
  * @param {number} appeal       票轨（魅力点数）
  * @return {number} 休息时由魅力对应得到的钱数
- * TODO: 用户提供官方映射后在此实现。当前返回 0，UI 显示「公式待补充」。
+ *
+ * 规则：0 票 = 5 元起；下列每档上限每过一档 +1 元。
+ * 序列为各档票数上限：0 1 2 3 4 6 8 10 12 14 16 19 22 25 28 31 35 39 43 47 51 55 60 65 70 75 80 85 90 95 101 107 113
+ * 例：5/6 票 → 10 元；7/8 票 → 11 元；113 票 → 37 元；超过 113 封顶 37 元。
  */
+const APPEAL_TIERS = [0,1,2,3,4,6,8,10,12,14,16,19,22,25,28,31,35,39,43,47,51,55,60,65,70,75,80,85,90,95,101,107,113];
+const APPEAL_BASE_INCOME = 5;
 function calcAppealIncome(conservation, appeal) {
-    const c = Number(conservation) || 0;
-    const a = Number(appeal) || 0;
-    void c; void a;
-    return 0;
+    const a = Math.max(0, Number(appeal) || 0);
+    let idx = APPEAL_TIERS.length - 1; // 超出最大档则封顶
+    for (let i = 0; i < APPEAL_TIERS.length; i++) {
+        if (a <= APPEAL_TIERS[i]) { idx = i; break; }
+    }
+    void conservation;
+    return APPEAL_BASE_INCOME + idx;
 }
-const APPEAL_INCOME_PENDING = true;
+const APPEAL_INCOME_PENDING = false;
 
 function breakIncome(p) {
     return calcAppealIncome(p.conservation, p.appeal)
