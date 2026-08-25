@@ -170,17 +170,17 @@ html, body {
     background: linear-gradient(135deg, var(--green-100), #eaf5e9);
     border: 1.5px solid var(--green-500);
     border-radius: 12px;
-    padding: 10px 14px;
-    margin: 4px 0 10px;
+    padding: 12px 16px;
+    margin: 4px 0 12px;
     display: flex; justify-content: space-between; align-items: center;
 }
-.break-box .lbl { font-size: 12px; color: var(--green-900); font-weight: 600; }
-.break-box .lbl .desc { font-size: 10px; color: var(--muted); font-weight: 400; display: block; margin-top: 1px; }
+.break-box .lbl { font-size: 13px; color: var(--green-900); font-weight: 600; }
+.break-box .lbl .desc { font-size: 11px; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
 .break-box .val {
-    font-size: 26px; font-weight: 800; color: var(--orange-dark);
+    font-size: 30px; font-weight: 800; color: var(--orange-dark);
     letter-spacing: -0.5px;
 }
-.break-box .val .unit { font-size: 12px; font-weight: 500; opacity: 0.7; margin-left: 2px; }
+.break-box .val .unit { font-size: 13px; font-weight: 500; opacity: 0.7; margin-left: 2px; }
 
 /* ===== Track rows ===== */
 .track-row {
@@ -188,33 +188,33 @@ html, body {
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 10px;
-    padding: 9px 0;
+    padding: 11px 0;
     border-bottom: 1px dashed var(--line);
 }
 .track-row:last-child { border-bottom: 0; }
-.track-row .info .name { font-size: 13px; font-weight: 600; }
-.track-row .info .desc { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.track-row .info .name { font-size: 14px; font-weight: 600; }
+.track-row .info .desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .num-stepper {
     display: flex; align-items: center;
     background: var(--cream);
     border: 1px solid var(--line);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
 }
 .num-stepper button {
-    width: 34px; height: 34px;
+    width: 44px; height: 44px;
     background: transparent; border: 0;
     color: var(--green-700);
-    font-size: 19px; font-weight: 700;
+    font-size: 24px; font-weight: 700;
     cursor: pointer;
     transition: background 0.12s;
     flex-shrink: 0;
 }
 .num-stepper button:active { background: var(--green-100); }
 .num-stepper input {
-    width: 48px; text-align: center; border: 0; background: transparent;
-    font-size: 16px; font-weight: 700; color: var(--ink);
-    font-family: inherit; padding: 5px 0;
+    width: 56px; text-align: center; border: 0; background: transparent;
+    font-size: 19px; font-weight: 700; color: var(--ink);
+    font-family: inherit; padding: 6px 0;
 }
 .num-stepper input:focus { outline: 0; background: #fff; }
 
@@ -224,29 +224,29 @@ html, body {
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 10px;
-    padding: 8px 0;
+    padding: 11px 0;
     border-bottom: 1px dashed var(--line);
 }
 .income-row:last-child { border-bottom: 0; }
-.income-row .label-name { font-size: 13px; }
-.income-row .label-name .desc { font-size: 10px; color: var(--muted); display: block; margin-top: 1px; }
+.income-row .label-name { font-size: 14px; }
+.income-row .label-name .desc { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
 .income-row .label-name .badge {
     display: inline-block; font-size: 9px; color: var(--orange-dark);
     background: #fde9e3; padding: 1px 5px; border-radius: 4px;
     margin-left: 4px; font-weight: 600; vertical-align: middle;
 }
 .num-stepper.mini {
-    transform: scale(0.92);
+    transform: scale(1);
     transform-origin: right center;
 }
-.num-stepper.mini button { width: 30px; height: 30px; font-size: 17px; }
-.num-stepper.mini input { width: 44px; font-size: 14px; padding: 4px 0; }
+.num-stepper.mini button { width: 40px; height: 40px; font-size: 22px; }
+.num-stepper.mini input { width: 52px; font-size: 17px; padding: 5px 0; }
 .income-row .num-stepper { flex-shrink: 0; }
 .calc-display {
-    min-width: 64px; text-align: center;
+    min-width: 72px; text-align: center;
     background: var(--green-100); color: var(--green-700);
-    border-radius: 8px; padding: 6px 4px;
-    font-size: 14px; font-weight: 700;
+    border-radius: 10px; padding: 9px 6px;
+    font-size: 17px; font-weight: 700;
 }
 .calc-display.pending { background: #fde9e3; color: var(--orange-dark); }
 
@@ -396,8 +396,8 @@ html, body {
     background: rgba(255,255,255,0.95);
     border: 0;
 }
-.break-progress .num-stepper button { color: var(--green-900); width: 28px; height: 28px; font-size: 16px; }
-.break-progress .num-stepper input { color: var(--ink); width: 36px; font-size: 14px; padding: 3px 0; }
+.break-progress .num-stepper button { color: var(--green-900); width: 36px; height: 36px; font-size: 20px; }
+.break-progress .num-stepper input { color: var(--ink); width: 44px; font-size: 16px; padding: 4px 0; }
 .break-progress .max { font-size: 12px; opacity: 0.85; }
 .break-progress .ready-badge {
     margin-left: auto;
@@ -901,7 +901,6 @@ function buildPlayerCard(p, mobile) {
     body.className = "pbody";
 
     // Tracks
-    body.appendChild(makeTrackRow(p, "conservation", "🛡️ 盾轨 · 保护项目点数", "完成保护项目时前进", 0, 50));
     body.appendChild(makeTrackRow(p, "appeal", "🎫 票轨 · 魅力点数", "提升魅力时前进", 0, 200));
 
     // divider
