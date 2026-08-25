@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>方舟动物园 · 休息收入记录</title>
+<title>方舟动物园 · 休息收入</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -32,20 +32,18 @@ html, body {
     -webkit-font-smoothing: antialiased;
 }
 
-body { padding-bottom: 80px; min-height: 100vh; }
-
 /* ===== Header ===== */
 .app-header {
     position: sticky; top: 0; z-index: 50;
     background: linear-gradient(135deg, var(--green-900), var(--green-700));
     color: #fff;
-    padding: 14px 16px;
+    padding: 12px 16px;
     box-shadow: 0 2px 12px rgba(27, 67, 50, 0.25);
 }
 .app-header .brand {
     display: flex; align-items: center; justify-content: space-between;
 }
-.app-header .brand .title { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+.app-header .brand .title { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
 .app-header .brand .title .sub { font-size: 11px; font-weight: 400; opacity: 0.7; margin-left: 6px; }
 .app-header .brand .actions { display: flex; gap: 6px; }
 .icon-btn {
@@ -61,10 +59,21 @@ body { padding-bottom: 80px; min-height: 100vh; }
 }
 .icon-btn:active { background: rgba(255,255,255,0.28); }
 
-/* ===== Main ===== */
-.main { padding: 14px; max-width: 720px; margin: 0 auto; }
+/* ============ Mobile view (< 820px) ============ */
+#mobile-view { display: block; padding: 14px 14px 100px; max-width: 560px; margin: 0 auto; }
+#grid-view { display: none; }
 
-/* ===== Player tabs ===== */
+@media (min-width: 820px) {
+    #mobile-view { display: none; }
+    #grid-view {
+        display: block;
+        padding: 18px 20px 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+/* ===== Mobile: Player tabs ===== */
 .player-tabs {
     display: flex; gap: 8px;
     overflow-x: auto;
@@ -95,7 +104,7 @@ body { padding-bottom: 80px; min-height: 100vh; }
 }
 .player-chip .name {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    max-width: 120px;
+    max-width: 110px;
 }
 .player-chip.active {
     border-color: var(--green-700);
@@ -107,91 +116,84 @@ body { padding-bottom: 80px; min-height: 100vh; }
     border-style: dashed;
     color: var(--green-700);
 }
-.player-chip .score-mini {
+.player-chip .money-mini {
     font-size: 11px;
     color: var(--muted);
     font-weight: 600;
     margin-left: 2px;
 }
-.player-chip.active .score-mini { color: var(--orange-dark); }
+.player-chip.active .money-mini { color: var(--orange-dark); }
 
-/* ===== Cards ===== */
-.card {
+/* ============ Player card (shared) ============ */
+.pcard {
     background: var(--card);
     border-radius: 14px;
     box-shadow: var(--shadow);
-    margin-bottom: 12px;
     overflow: hidden;
+    position: relative;
 }
-.card-head {
-    display: flex; align-items: center; justify-content: space-between;
+.pcard .phead {
+    display: flex; align-items: center; gap: 10px;
     padding: 12px 14px;
     border-bottom: 1px solid var(--line);
     background: linear-gradient(180deg, #fff, #fcfaf3);
 }
-.card-head .label {
-    font-size: 14px; font-weight: 700; color: var(--green-900);
-    display: flex; align-items: center; gap: 8px;
-}
-.card-head .label .ico { font-size: 16px; }
-.card-head .meta {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 600;
-}
-.card-head .meta b { color: var(--green-700); font-size: 15px; }
-.card-body { padding: 12px 14px 14px; }
-
-/* ===== Player header card ===== */
-.player-card-head {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px;
-    background: var(--card);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-}
-.player-card-head .color-pick {
-    width: 36px; height: 36px;
+.pcard .phead .color-pick {
+    width: 28px; height: 28px;
     border-radius: 50%;
-    border: 3px solid #fff;
+    border: 2px solid #fff;
     box-shadow: 0 0 0 2px var(--line);
     cursor: pointer;
     flex-shrink: 0;
 }
-.player-card-head input.name-input {
+.pcard .phead input.name-input {
     flex: 1;
     border: 0;
-    border-bottom: 2px solid var(--line);
+    border-bottom: 2px solid transparent;
     background: transparent;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--ink);
-    padding: 6px 4px;
+    padding: 4px 2px;
     font-family: inherit;
+    min-width: 0;
 }
-.player-card-head input.name-input:focus { outline: 0; border-bottom-color: var(--green-500); }
-.player-card-head .del-btn {
-    background: transparent;
-    border: 0;
-    color: var(--muted);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px 8px;
+.pcard .phead input.name-input:focus { outline: 0; border-bottom-color: var(--green-500); }
+.pcard .phead .del-btn {
+    background: transparent; border: 0; color: var(--muted);
+    font-size: 18px; cursor: pointer; padding: 2px 6px;
 }
+.pcard .pbody { padding: 10px 14px 12px; }
 
-/* ===== Track rows (盾轨 / 票轨) ===== */
+/* break income highlight (per card) */
+.break-box {
+    background: linear-gradient(135deg, var(--green-100), #eaf5e9);
+    border: 1.5px solid var(--green-500);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 4px 0 10px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.break-box .lbl { font-size: 12px; color: var(--green-900); font-weight: 600; }
+.break-box .lbl .desc { font-size: 10px; color: var(--muted); font-weight: 400; display: block; margin-top: 1px; }
+.break-box .val {
+    font-size: 26px; font-weight: 800; color: var(--orange-dark);
+    letter-spacing: -0.5px;
+}
+.break-box .val .unit { font-size: 12px; font-weight: 500; opacity: 0.7; margin-left: 2px; }
+
+/* ===== Track rows ===== */
 .track-row {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 12px;
-    padding: 10px 0;
+    gap: 10px;
+    padding: 9px 0;
     border-bottom: 1px dashed var(--line);
 }
 .track-row:last-child { border-bottom: 0; }
-.track-row .info .name { font-size: 14px; font-weight: 600; }
-.track-row .info .desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.track-row .info .name { font-size: 13px; font-weight: 600; }
+.track-row .info .desc { font-size: 10px; color: var(--muted); margin-top: 1px; }
 .num-stepper {
     display: flex; align-items: center;
     background: var(--cream);
@@ -200,141 +202,56 @@ body { padding-bottom: 80px; min-height: 100vh; }
     overflow: hidden;
 }
 .num-stepper button {
-    width: 36px; height: 36px;
-    background: transparent;
-    border: 0;
+    width: 34px; height: 34px;
+    background: transparent; border: 0;
     color: var(--green-700);
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 19px; font-weight: 700;
     cursor: pointer;
     transition: background 0.12s;
     flex-shrink: 0;
 }
 .num-stepper button:active { background: var(--green-100); }
 .num-stepper input {
-    width: 56px;
-    text-align: center;
-    border: 0;
-    background: transparent;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--ink);
-    font-family: inherit;
-    padding: 6px 0;
+    width: 48px; text-align: center; border: 0; background: transparent;
+    font-size: 16px; font-weight: 700; color: var(--ink);
+    font-family: inherit; padding: 5px 0;
 }
 .num-stepper input:focus { outline: 0; background: #fff; }
 
-.track-hint {
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--green-100);
-    border-left: 3px solid var(--green-500);
-    padding: 6px 10px;
-    border-radius: 4px;
-    margin-top: 8px;
-}
-
-/* ===== Income round card ===== */
-.round-card {
-    background: var(--card);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    margin-bottom: 12px;
-    overflow: hidden;
-    border-left: 4px solid var(--green-500);
-}
-.round-card .round-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 14px;
-    background: linear-gradient(180deg, #fff, #fcfaf3);
-    border-bottom: 1px solid var(--line);
-}
-.round-card .round-head .title {
-    font-size: 14px; font-weight: 700; color: var(--green-900);
-    display: flex; align-items: center; gap: 6px;
-}
-.round-card .round-head .total {
-    font-size: 15px; font-weight: 700; color: var(--orange-dark);
-}
-.round-card .round-head .del {
-    background: transparent; border: 0; color: var(--muted);
-    font-size: 18px; cursor: pointer; padding: 2px 6px; margin-left: 8px;
-}
-.round-card .round-body { padding: 6px 14px 12px; }
-
+/* ===== Income rows (per card, shared) ===== */
 .income-row {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 8px 0;
     border-bottom: 1px dashed var(--line);
 }
 .income-row:last-child { border-bottom: 0; }
 .income-row .label-name { font-size: 13px; }
-.income-row .label-name .desc { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+.income-row .label-name .desc { font-size: 10px; color: var(--muted); display: block; margin-top: 1px; }
 .income-row .label-name .badge {
-    display: inline-block;
-    font-size: 10px;
-    color: var(--orange-dark);
-    background: #fde9e3;
-    padding: 1px 6px;
-    border-radius: 4px;
-    margin-left: 4px;
-    font-weight: 600;
+    display: inline-block; font-size: 9px; color: var(--orange-dark);
+    background: #fde9e3; padding: 1px 5px; border-radius: 4px;
+    margin-left: 4px; font-weight: 600; vertical-align: middle;
 }
 .num-input {
-    width: 70px;
-    text-align: center;
-    border: 1px solid var(--line);
-    background: var(--cream);
-    border-radius: 8px;
-    padding: 7px 6px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
+    width: 64px; text-align: center;
+    border: 1px solid var(--line); background: var(--cream);
+    border-radius: 8px; padding: 6px 4px;
+    font-size: 14px; font-weight: 600; color: var(--ink);
     font-family: inherit;
 }
 .num-input:focus { outline: 2px solid var(--green-500); background: #fff; }
 .calc-display {
-    min-width: 70px;
-    text-align: center;
-    background: var(--green-100);
-    color: var(--green-700);
-    border-radius: 8px;
-    padding: 7px 6px;
-    font-size: 15px;
-    font-weight: 700;
+    min-width: 64px; text-align: center;
+    background: var(--green-100); color: var(--green-700);
+    border-radius: 8px; padding: 6px 4px;
+    font-size: 14px; font-weight: 700;
 }
-.calc-display.pending {
-    background: #fde9e3;
-    color: var(--orange-dark);
-}
-.row-total {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 6px; padding-top: 8px;
-    border-top: 1.5px solid var(--green-100);
-}
-.row-total .lbl { font-size: 13px; font-weight: 700; color: var(--green-900); }
-.row-total .val { font-size: 18px; font-weight: 800; color: var(--orange-dark); }
+.calc-display.pending { background: #fde9e3; color: var(--orange-dark); }
 
-.add-round-btn {
-    width: 100%;
-    background: var(--green-700);
-    color: #fff;
-    border: 0;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s;
-}
-.add-round-btn:active { background: var(--green-900); }
-.add-round-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
-
-/* ===== Sticky total bar ===== */
+/* ===== Mobile sticky total bar ===== */
 .total-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -345,22 +262,49 @@ body { padding-bottom: 80px; min-height: 100vh; }
     box-shadow: 0 -4px 16px rgba(27, 67, 50, 0.2);
     z-index: 40;
 }
-.total-bar .label { font-size: 12px; opacity: 0.8; }
+.total-bar .label { font-size: 12px; opacity: 0.85; }
 .total-bar .player-name { font-size: 14px; font-weight: 600; margin-top: 1px; }
-.total-bar .total {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+.total-bar .money {
+    font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
 }
-.total-bar .total .small { font-size: 12px; font-weight: 500; opacity: 0.7; }
-.total-bar .tracks {
-    font-size: 11px;
-    opacity: 0.85;
-    margin-top: 2px;
-}
-.total-bar .tracks b { font-weight: 700; }
+.total-bar .money .small { font-size: 12px; font-weight: 500; opacity: 0.7; }
 
-/* ===== Empty state ===== */
+/* ===== Grid (tablet) layout ===== */
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+.players-grid .pcol { display: flex; }
+.grid-break-box {
+    background: linear-gradient(135deg, var(--green-700), var(--green-900));
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 4px 0 12px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.grid-break-box .lbl { font-size: 12px; opacity: 0.9; font-weight: 600; }
+.grid-break-box .lbl .desc { font-size: 10px; opacity: 0.75; font-weight: 400; display: block; margin-top: 1px; }
+.grid-break-box .val { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
+.grid-break-box .val .unit { font-size: 12px; font-weight: 500; opacity: 0.7; margin-left: 2px; }
+
+.grid-add-btn {
+    width: 100%;
+    background: var(--card);
+    border: 2px dashed var(--line);
+    color: var(--green-700);
+    padding: 20px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+.grid-add-btn:active { background: var(--green-100); border-color: var(--green-500); }
+
+/* ===== Mobile empty state ===== */
 .empty-state {
     text-align: center;
     padding: 50px 20px;
@@ -379,24 +323,15 @@ body { padding-bottom: 80px; min-height: 100vh; }
 }
 .color-pop.show { display: flex; }
 .color-pop .panel {
-    background: #fff;
-    border-radius: 14px;
-    padding: 18px;
-    max-width: 320px;
-    width: 100%;
+    background: #fff; border-radius: 14px; padding: 18px;
+    max-width: 320px; width: 100%;
 }
 .color-pop .panel h4 { font-size: 14px; margin-bottom: 12px; color: var(--green-900); }
-.color-pop .swatches {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-}
+.color-pop .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .color-pop .swatches .sw {
-    aspect-ratio: 1;
-    border-radius: 50%;
+    aspect-ratio: 1; border-radius: 50%;
     border: 2px solid rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.1s;
+    cursor: pointer; transition: transform 0.1s;
 }
 .color-pop .swatches .sw:active { transform: scale(0.9); }
 
@@ -411,24 +346,14 @@ body { padding-bottom: 80px; min-height: 100vh; }
 }
 .confirm-pop.show { display: flex; }
 .confirm-pop .panel {
-    background: #fff;
-    border-radius: 14px;
-    padding: 20px;
-    max-width: 320px;
-    width: 100%;
-    text-align: center;
+    background: #fff; border-radius: 14px; padding: 20px;
+    max-width: 320px; width: 100%; text-align: center;
 }
 .confirm-pop .panel p { font-size: 14px; margin-bottom: 16px; color: var(--ink); }
 .confirm-pop .panel .btns { display: flex; gap: 10px; }
 .confirm-pop .panel .btns button {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: 0;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
+    flex: 1; padding: 10px; border-radius: 8px; border: 0;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
 .confirm-pop .panel .btns .yes { background: var(--orange); color: #fff; }
 .confirm-pop .panel .btns .no { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
@@ -436,8 +361,7 @@ body { padding-bottom: 80px; min-height: 100vh; }
 /* ===== Toast ===== */
 .toast {
     position: fixed;
-    bottom: 96px;
-    left: 50%;
+    bottom: 96px; left: 50%;
     transform: translateX(-50%);
     background: rgba(27, 42, 36, 0.95);
     color: #fff;
@@ -450,13 +374,21 @@ body { padding-bottom: 80px; min-height: 100vh; }
     pointer-events: none;
 }
 .toast.show { opacity: 1; }
+
+/* Tablet: tweak card sizes */
+@media (min-width: 820px) and (max-width: 1100px) {
+    .players-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+    .players-grid { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
+}
 </style>
 </head>
 <body>
 
 <header class="app-header">
     <div class="brand">
-        <div class="title">方舟动物园 · 休息收入记录<span class="sub">Break Income Tracker</span></div>
+        <div class="title">方舟动物园 · 休息收入<span class="sub">Break Income</span></div>
         <div class="actions">
             <button class="icon-btn" id="btn-save" title="保存">💾</button>
             <button class="icon-btn" id="btn-reset" title="重置">↺</button>
@@ -464,18 +396,24 @@ body { padding-bottom: 80px; min-height: 100vh; }
     </div>
 </header>
 
-<main class="main">
-    <div id="players-area"></div>
-</main>
+<!-- ============ Mobile view ============ -->
+<section id="mobile-view">
+    <div id="mobile-tabs"></div>
+    <div id="mobile-card"></div>
+</section>
 
-<!-- ============ Sticky total bar ============ -->
+<!-- ============ Grid (tablet) view ============ -->
+<section id="grid-view">
+    <div class="players-grid" id="grid-area"></div>
+</section>
+
+<!-- ============ Mobile sticky total bar ============ -->
 <div class="total-bar" id="total-bar">
     <div>
-        <div class="label">累计总收入</div>
+        <div class="label">当前玩家休息可得</div>
         <div class="player-name" id="total-bar-name">—</div>
-        <div class="tracks" id="total-bar-tracks"></div>
     </div>
-    <div class="total" id="total-bar-value">0<span class="small"> 钱</span></div>
+    <div class="money" id="total-bar-value">0<span class="small"> 钱</span></div>
 </div>
 
 <!-- ============ Color picker popover ============ -->
@@ -504,29 +442,21 @@ body { padding-bottom: 80px; min-height: 100vh; }
 "use strict";
 
 /* ============ Constants ============ */
-const STORAGE_KEY = "ark-nova-break-income-v1";
-
+const STORAGE_KEY = "ark-nova-break-v2";
 const PLAYER_COLORS = [
     "#e63946", "#2a9d8f", "#f4a261", "#457b9d",
-    "#9b5de5", "#ffb703", "#06d6a0", "#ef476f",
-    "#118ab2", "#fb8500"
+    "#9b5de5", "#ffb703"
 ];
-
-const DEFAULT_NAMES = ["玩家 1", "玩家 2", "玩家 3", "玩家 4", "玩家 5", "玩家 6"];
+const DEFAULT_NAMES = ["玩家 1", "玩家 2", "玩家 3", "玩家 4"];
+const MAX_PLAYERS = 4;
 
 /* ============ State ============ */
-let state = {
-    players: [],
-    activeId: null
-};
-
+let state = { players: [], activeId: null };
 let pendingColorPickFor = null;
 let pendingConfirmCb = null;
 
 /* ============ Persistence ============ */
-function save() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-}
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
 function load() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -541,38 +471,25 @@ function load() {
 }
 
 /* ============ Helpers ============ */
-function uid() { return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
-
+function uid() { return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
 function newPlayer(idx) {
     return {
         id: uid(),
         name: DEFAULT_NAMES[idx] || ("玩家 " + (idx+1)),
         color: PLAYER_COLORS[idx % PLAYER_COLORS.length],
-        conservation: 0,   // 盾轨：保护项目点数
-        appeal: 0,         // 票轨：魅力点数
-        rounds: []         // 每轮休息收入记录
-    };
-}
-
-function newRound(p) {
-    // 记录一轮休息时快照当前盾轨/票轨
-    return {
-        id: uid(),
-        conservation: Number(p.conservation) || 0,
-        appeal: Number(p.appeal) || 0,
-        kioskIncome: 0,    // 贩售亭收入（用户输入）
-        cardIncome: 0      // 卡牌额外收入（用户输入）
+        conservation: 0,
+        appeal: 0,
+        kioskIncome: 0,
+        cardIncome: 0
     };
 }
 
 /**
  * 魅力对应收入计算（公式待用户补充）
- * @param {number} conservation 盾轨（保护项目点数）快照
- * @param {number} appeal       票轨（魅力点数）快照
- * @return {number} 本轮休息由魅力对应得到的钱数
- *
- * TODO: 待用户提供官方魅力→钱数映射表/公式后在此实现。
- * 当前返回 0 作为占位，UI 会显示「公式待补充」。
+ * @param {number} conservation 盾轨（保护项目点数）
+ * @param {number} appeal       票轨（魅力点数）
+ * @return {number} 休息时由魅力对应得到的钱数
+ * TODO: 用户提供官方映射后在此实现。当前返回 0，UI 显示「公式待补充」。
  */
 function calcAppealIncome(conservation, appeal) {
     const c = Number(conservation) || 0;
@@ -580,326 +497,244 @@ function calcAppealIncome(conservation, appeal) {
     void c; void a;
     return 0;
 }
+const APPEAL_INCOME_PENDING = true;
 
-const APPEAL_INCOME_PENDING = true; // 公式是否待补充
-
-function roundAppealIncome(r) {
-    return calcAppealIncome(r.conservation, r.appeal);
+function breakIncome(p) {
+    return calcAppealIncome(p.conservation, p.appeal)
+         + (Number(p.kioskIncome) || 0)
+         + (Number(p.cardIncome) || 0);
 }
-function roundTotal(r) {
-    return roundAppealIncome(r) + (Number(r.kioskIncome) || 0) + (Number(r.cardIncome) || 0);
-}
-function playerTotal(p) {
-    return (p.rounds || []).reduce((s, r) => s + roundTotal(r), 0);
-}
-
 function getActivePlayer() {
     return state.players.find(p => p.id === state.activeId) || state.players[0] || null;
 }
 
 /* ============ Rendering ============ */
 function render() {
-    const area = document.getElementById("players-area");
-    area.innerHTML = "";
-
     if (state.players.length === 0) {
-        area.innerHTML = `
-            <div class="empty-state">
-                <div class="big">🦁</div>
-                <div>还没有玩家，先添加一位开始记录。</div>
-            </div>`;
-        addAddPlayerChip(area);
+        // both views: empty
+        document.getElementById("mobile-tabs").innerHTML = "";
+        document.getElementById("mobile-card").innerHTML =
+            `<div class="empty-state"><div class="big">🦁</div>
+             <div>还没有玩家</div>
+             <button class="grid-add-btn" style="margin-top:16px;max-width:200px;" id="empty-add">+ 添加玩家</button></div>`;
+        document.getElementById("grid-area").innerHTML = "";
+        const ea = document.getElementById("empty-add");
+        if (ea) ea.addEventListener("click", () => addPlayer());
         updateTotalBar();
         return;
     }
 
-    // Player chips
-    const tabs = document.createElement("div");
+    // ---- Mobile ----
+    renderMobileTabs();
+    renderMobileCard();
+
+    // ---- Grid (tablet) ----
+    renderGrid();
+
+    updateTotalBar();
+}
+
+/* ===== Mobile tabs ===== */
+function renderMobileTabs() {
+    const tabs = document.getElementById("mobile-tabs");
     tabs.className = "player-tabs";
+    tabs.innerHTML = "";
     state.players.forEach(p => {
         const chip = document.createElement("div");
         chip.className = "player-chip" + (p.id === state.activeId ? " active" : "");
-        const total = playerTotal(p);
+        const m = breakIncome(p);
         chip.innerHTML = `
             <div class="swatch" style="background:${p.color}"></div>
             <div class="name">${escapeHtml(p.name)}</div>
-            <div class="score-mini">${total}</div>`;
+            <div class="money-mini">${m}</div>`;
         chip.addEventListener("click", () => {
-            state.activeId = p.id;
-            save();
-            render();
+            state.activeId = p.id; save(); render();
         });
         tabs.appendChild(chip);
     });
-    if (state.players.length < 6) {
+    if (state.players.length < MAX_PLAYERS) {
         const add = document.createElement("div");
         add.className = "player-chip add";
         add.innerHTML = "+ 添加";
         add.addEventListener("click", () => addPlayer());
         tabs.appendChild(add);
     }
-    area.appendChild(tabs);
+}
 
-    const active = getActivePlayer();
-    if (!active) { updateTotalBar(); return; }
+/* ===== Mobile active card ===== */
+function renderMobileCard() {
+    const area = document.getElementById("mobile-card");
+    area.innerHTML = "";
+    const p = getActivePlayer();
+    if (!p) return;
+    area.appendChild(buildPlayerCard(p, /*mobile*/ true));
+}
 
-    // Player header card
-    const head = document.createElement("div");
-    head.className = "player-card-head";
-    head.innerHTML = `
-        <div class="color-pick" style="background:${active.color}" title="点击换颜色"></div>
-        <input class="name-input" type="text" maxlength="12" value="${escapeHtml(active.name)}" />
-        ${state.players.length > 1 ? '<button class="del-btn" title="删除玩家">🗑</button>' : ''}`;
-    area.appendChild(head);
-    head.querySelector(".color-pick").addEventListener("click", () => openColorPick(active.id));
-    head.querySelector(".name-input").addEventListener("change", (e) => {
-        active.name = e.target.value.trim() || active.name;
-        save(); render();
+/* ===== Grid (tablet) ===== */
+function renderGrid() {
+    const area = document.getElementById("grid-area");
+    area.innerHTML = "";
+    state.players.forEach(p => {
+        const col = document.createElement("div");
+        col.className = "pcol";
+        col.appendChild(buildPlayerCard(p, /*mobile*/ false));
+        area.appendChild(col);
     });
-    const delBtn = head.querySelector(".del-btn");
-    if (delBtn) delBtn.addEventListener("click", () => deletePlayer(active.id));
-
-    // Tracks card (盾轨 / 票轨)
-    area.appendChild(renderTracksCard(active));
-
-    // Break income rounds
-    area.appendChild(renderRoundsCard(active));
-
-    updateTotalBar();
+    if (state.players.length < MAX_PLAYERS) {
+        const col = document.createElement("div");
+        col.className = "pcol";
+        const btn = document.createElement("button");
+        btn.className = "grid-add-btn";
+        btn.textContent = "+ 添加玩家";
+        btn.addEventListener("click", () => addPlayer());
+        col.appendChild(btn);
+        area.appendChild(col);
+    }
 }
 
-function addAddPlayerChip(parent) {
-    const tabs = document.createElement("div");
-    tabs.className = "player-tabs";
-    const add = document.createElement("div");
-    add.className = "player-chip add";
-    add.innerHTML = "+ 添加玩家";
-    add.addEventListener("click", () => addPlayer());
-    tabs.appendChild(add);
-    parent.appendChild(tabs);
-}
-
-function renderTracksCard(p) {
+/* ===== Build a player card (shared) =====
+ * mobile=true: show break box at top, sticky bar reflects it
+ * mobile=false (grid): show break box (dark) at top
+ */
+function buildPlayerCard(p, mobile) {
     const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-        <div class="card-head">
-            <div class="label"><span class="ico">🎯</span>当前状态</div>
-            <div class="meta">盾轨 <b>${Number(p.conservation)||0}</b> · 票轨 <b>${Number(p.appeal)||0}</b></div>
-        </div>
-        <div class="card-body"></div>`;
-    const body = card.querySelector(".card-body");
+    card.className = "pcard";
 
-    // 盾轨
-    const shieldRow = document.createElement("div");
-    shieldRow.className = "track-row";
-    shieldRow.innerHTML = `
-        <div class="info">
-            <div class="name">🛡️ 盾轨 · 保护项目点数</div>
-            <div class="desc">完成保护项目 / 触发协会行动时前进</div>
-        </div>
-        <div class="num-stepper">
-            <button data-act="dec">−</button>
-            <input type="number" inputmode="numeric" min="0" max="50" value="${Number(p.conservation)||0}" />
-            <button data-act="inc">+</button>
-        </div>`;
-    bindStepper(shieldRow, p, "conservation", 0, 50);
-    body.appendChild(shieldRow);
+    // Break income highlight
+    const m = breakIncome(p);
+    if (mobile) {
+        card.insertAdjacentHTML("beforeend", `
+            <div class="break-box">
+                <div class="lbl">休息可得<div class="desc">魅力对应 + 贩售亭 + 卡牌额外</div></div>
+                <div class="val">${m}<span class="unit">钱</span></div>
+            </div>`);
+    } else {
+        card.insertAdjacentHTML("beforeend", `
+            <div class="grid-break-box">
+                <div class="lbl">休息可得<div class="desc">魅力对应 + 贩售亭 + 卡牌额外</div></div>
+                <div class="val">${m}<span class="unit">钱</span></div>
+            </div>`);
+    }
 
-    // 票轨
-    const appealRow = document.createElement("div");
-    appealRow.className = "track-row";
-    appealRow.innerHTML = `
-        <div class="info">
-            <div class="name">🎫 票轨 · 魅力点数</div>
-            <div class="desc">放入动物 / 场馆等提升魅力时前进</div>
-        </div>
-        <div class="num-stepper">
-            <button data-act="dec">−</button>
-            <input type="number" inputmode="numeric" min="0" max="200" value="${Number(p.appeal)||0}" />
-            <button data-act="inc">+</button>
-        </div>`;
-    bindStepper(appealRow, p, "appeal", 0, 200);
-    body.appendChild(appealRow);
+    // Header
+    const head = document.createElement("div");
+    head.className = "phead";
+    head.innerHTML = `
+        <div class="color-pick" style="background:${p.color}" title="点击换颜色"></div>
+        <input class="name-input" type="text" maxlength="12" value="${escapeHtml(p.name)}" />
+        ${state.players.length > 1 ? '<button class="del-btn" title="删除玩家">✕</button>' : ''}`;
+    card.appendChild(head);
+    head.querySelector(".color-pick").addEventListener("click", () => openColorPick(p.id));
+    head.querySelector(".name-input").addEventListener("change", (e) => {
+        p.name = e.target.value.trim() || p.name; save(); render();
+    });
+    const del = head.querySelector(".del-btn");
+    if (del) del.addEventListener("click", () => deletePlayer(p.id));
 
-    const hint = document.createElement("div");
-    hint.className = "track-hint";
-    hint.textContent = "票轨位置决定每轮休息时「魅力对应收入」。盾轨用于游戏结束判定（两轨相遇即终局）。";
-    body.appendChild(hint);
+    // Body
+    const body = document.createElement("div");
+    body.className = "pbody";
 
+    // Tracks
+    body.appendChild(makeTrackRow(p, "conservation", "🛡️ 盾轨 · 保护项目点数", "完成保护项目时前进", 0, 50));
+    body.appendChild(makeTrackRow(p, "appeal", "🎫 票轨 · 魅力点数", "提升魅力时前进", 0, 200));
+
+    // divider
+    const div = document.createElement("div");
+    div.style.cssText = "height:1px;background:var(--line);margin:4px 0;";
+    body.appendChild(div);
+
+    // Kiosk income (input)
+    body.appendChild(makeInputRow(p, "kioskIncome", "🏪 贩售亭收入", "手动输入", 0));
+    // Card extra income (input)
+    body.appendChild(makeInputRow(p, "cardIncome", "🃏 卡牌额外收入", "卡牌效果（可负数）", null));
+    // Appeal income (calc)
+    body.appendChild(makeCalcRow(p));
+
+    card.appendChild(body);
     return card;
 }
 
-function bindStepper(row, p, key, min, max) {
+function makeTrackRow(p, key, name, desc, min, max) {
+    const row = document.createElement("div");
+    row.className = "track-row";
+    row.innerHTML = `
+        <div class="info">
+            <div class="name">${name}</div>
+            <div class="desc">${desc}</div>
+        </div>
+        <div class="num-stepper">
+            <button data-act="dec">−</button>
+            <input type="number" inputmode="numeric" min="${min}" max="${max}" value="${Number(p[key])||0}" />
+            <button data-act="inc">+</button>
+        </div>`;
     const input = row.querySelector("input");
-    const inc = () => {
-        let v = (Number(p[key]) || 0) + 1;
-        if (v > max) v = max;
-        p[key] = v; input.value = v; save();
-        onTrackChange(p);
-    };
-    const dec = () => {
-        let v = (Number(p[key]) || 0) - 1;
-        if (v < min) v = min;
-        p[key] = v; input.value = v; save();
-        onTrackChange(p);
-    };
+    const inc = () => { let v = Math.min(max, (Number(p[key])||0) + 1); p[key] = v; input.value = v; save(); render(); };
+    const dec = () => { let v = Math.max(min, (Number(p[key])||0) - 1); p[key] = v; input.value = v; save(); render(); };
     row.querySelector('[data-act="inc"]').addEventListener("click", inc);
     row.querySelector('[data-act="dec"]').addEventListener("click", dec);
     input.addEventListener("change", () => {
         let v = parseInt(input.value, 10);
         if (isNaN(v)) v = min;
         v = Math.max(min, Math.min(max, v));
-        p[key] = v; input.value = v; save();
-        onTrackChange(p);
+        p[key] = v; input.value = v; save(); render();
     });
+    return row;
 }
 
-function onTrackChange(p) {
-    // 票轨/盾轨变化时刷新整页（卡片头汇总、底部条、各轮魅力对应收入展示）
-    render();
-}
-
-function renderRoundsCard(p) {
-    const card = document.createElement("div");
-    card.className = "card";
-    const total = playerTotal(p);
-    card.innerHTML = `
-        <div class="card-head">
-            <div class="label"><span class="ico">💰</span>休息收入记录</div>
-            <div class="meta">累计 <b>${total}</b> 钱</div>
-        </div>
-        <div class="card-body" id="rounds-body"></div>`;
-    const body = card.querySelector("#rounds-body");
-
-    if (!p.rounds || p.rounds.length === 0) {
-        const empty = document.createElement("div");
-        empty.style.cssText = "text-align:center;color:var(--muted);padding:18px 0 14px;font-size:13px;";
-        empty.textContent = "还没有休息记录。点击下方按钮添加一轮休息。";
-        body.appendChild(empty);
-    } else {
-        p.rounds.forEach((r, i) => {
-            body.appendChild(renderRoundCard(p, r, i + 1));
-        });
-    }
-
-    const addBtn = document.createElement("button");
-    addBtn.className = "add-round-btn";
-    addBtn.textContent = "+ 记录一轮休息";
-    addBtn.addEventListener("click", () => {
-        p.rounds.push(newRound(p));
-        save(); render();
+function makeInputRow(p, key, label, desc, min) {
+    const row = document.createElement("div");
+    row.className = "income-row";
+    row.innerHTML = `
+        <div class="label-name">${label}<span class="desc">${desc}</span></div>
+        <input class="num-input" type="number" inputmode="numeric" ${min!==null?`min="${min}"`:""} value="${Number(p[key])||0}" />`;
+    row.querySelector("input").addEventListener("change", (e) => {
+        let v = parseInt(e.target.value, 10);
+        if (isNaN(v)) v = 0;
+        if (min !== null) v = Math.max(min, v);
+        p[key] = v; save(); render();
     });
-    body.appendChild(addBtn);
-
-    return card;
+    return row;
 }
 
-function renderRoundCard(p, r, idx) {
-    const appealInc = roundAppealIncome(r);
-    const total = roundTotal(r);
-    const rc = document.createElement("div");
-    rc.className = "round-card";
-    rc.innerHTML = `
-        <div class="round-head">
-            <div class="title">🛏️ 第 ${idx} 轮休息</div>
-            <div>
-                <span class="total">+${total} 钱</span>
-                <button class="del" title="删除本轮">✕</button>
-            </div>
-        </div>
-        <div class="round-body"></div>`;
-    const rb = rc.querySelector(".round-body");
-
-    // 快照信息
-    const snap = document.createElement("div");
-    snap.style.cssText = "font-size:11px;color:var(--muted);padding:6px 0 4px;";
-    snap.innerHTML = `记录时状态：🛡️ 盾轨 <b style="color:var(--ink)">${Number(r.conservation)||0}</b> · 🎫 票轨 <b style="color:var(--ink)">${Number(r.appeal)||0}</b>`;
-    rb.appendChild(snap);
-
-    // 魅力对应收入（计算展示）
-    const appealRow = document.createElement("div");
-    appealRow.className = "income-row";
+function makeCalcRow(p) {
+    const row = document.createElement("div");
+    row.className = "income-row";
+    const v = calcAppealIncome(p.conservation, p.appeal);
     const pending = APPEAL_INCOME_PENDING;
-    appealRow.innerHTML = `
+    row.innerHTML = `
         <div class="label-name">
             魅力对应收入
             ${pending ? '<span class="badge">公式待补充</span>' : ''}
             <span class="desc">由票轨位置自动计算</span>
         </div>
-        <div class="calc-display${pending ? ' pending' : ''}">${appealInc}</div>`;
-    rb.appendChild(appealRow);
-
-    // 贩售亭收入
-    const kioskRow = document.createElement("div");
-    kioskRow.className = "income-row";
-    kioskRow.innerHTML = `
-        <div class="label-name">
-            贩售亭收入
-            <span class="desc">每座贩售亭对应钱数（手动输入）</span>
-        </div>
-        <input class="num-input" type="number" inputmode="numeric" min="0" value="${Number(r.kioskIncome)||0}" />`;
-    kioskRow.querySelector("input").addEventListener("change", (e) => {
-        r.kioskIncome = Math.max(0, parseInt(e.target.value, 10) || 0);
-        save(); render();
-    });
-    rb.appendChild(kioskRow);
-
-    // 卡牌额外收入
-    const cardRow = document.createElement("div");
-    cardRow.className = "income-row";
-    cardRow.innerHTML = `
-        <div class="label-name">
-            卡牌额外收入
-            <span class="desc">卡牌效果带来的额外钱（可负数）</span>
-        </div>
-        <input class="num-input" type="number" inputmode="numeric" value="${Number(r.cardIncome)||0}" />`;
-    cardRow.querySelector("input").addEventListener("change", (e) => {
-        let v = parseInt(e.target.value, 10);
-        if (isNaN(v)) v = 0;
-        r.cardIncome = v; save(); render();
-    });
-    rb.appendChild(cardRow);
-
-    // 本轮合计
-    const totalRow = document.createElement("div");
-    totalRow.className = "row-total";
-    totalRow.innerHTML = `<span class="lbl">本轮合计</span><span class="val">+${total} 钱</span>`;
-    rb.appendChild(totalRow);
-
-    rc.querySelector(".del").addEventListener("click", () => deleteRound(p, r.id));
-
-    return rc;
+        <div class="calc-display${pending ? ' pending' : ''}">${v}</div>`;
+    return row;
 }
 
-/* ============ Total Bar ============ */
+/* ============ Total Bar (mobile) ============ */
 function updateTotalBar() {
     const p = getActivePlayer();
     const nameEl = document.getElementById("total-bar-name");
     const valEl = document.getElementById("total-bar-value");
-    const tracksEl = document.getElementById("total-bar-tracks");
     if (!p) {
         nameEl.textContent = "—";
-        tracksEl.textContent = "";
         valEl.innerHTML = '0<span class="small"> 钱</span>';
         return;
     }
     nameEl.textContent = p.name;
-    tracksEl.innerHTML = `🛡️ 盾轨 <b>${Number(p.conservation)||0}</b> · 🎫 票轨 <b>${Number(p.appeal)||0}</b>`;
-    const total = playerTotal(p);
-    valEl.innerHTML = `${total}<span class="small"> 钱</span>`;
+    valEl.innerHTML = `${breakIncome(p)}<span class="small"> 钱</span>`;
 }
 
 /* ============ Player Management ============ */
 function addPlayer() {
-    if (state.players.length >= 6) { toast("最多支持 6 位玩家"); return; }
+    if (state.players.length >= MAX_PLAYERS) { toast(`最多 ${MAX_PLAYERS} 位玩家`); return; }
     const p = newPlayer(state.players.length);
     state.players.push(p);
     state.activeId = p.id;
     save(); render();
     toast("已添加 " + p.name);
 }
-
 function deletePlayer(id) {
     const idx = state.players.findIndex(p => p.id === id);
     if (idx < 0) return;
@@ -910,13 +745,6 @@ function deletePlayer(id) {
             state.activeId = state.players[0] ? state.players[0].id : null;
         }
         save(); render();
-    });
-}
-
-function deleteRound(p, rid) {
-    showConfirm("删除这一轮休息记录？", () => {
-        const i = (p.rounds || []).findIndex(r => r.id === rid);
-        if (i >= 0) { p.rounds.splice(i, 1); save(); render(); }
     });
 }
 
@@ -940,9 +768,7 @@ function openColorPick(playerId) {
     pop.classList.add("show");
 }
 document.getElementById("color-pop").addEventListener("click", (e) => {
-    if (e.target.id === "color-pop") {
-        document.getElementById("color-pop").classList.remove("show");
-    }
+    if (e.target.id === "color-pop") document.getElementById("color-pop").classList.remove("show");
 });
 
 /* ============ Confirm Dialog ============ */
@@ -971,9 +797,7 @@ function toast(msg) {
 }
 
 /* ============ Top buttons ============ */
-document.getElementById("btn-save").addEventListener("click", () => {
-    save(); toast("已保存到本机");
-});
+document.getElementById("btn-save").addEventListener("click", () => { save(); toast("已保存到本机"); });
 document.getElementById("btn-reset").addEventListener("click", () => {
     showConfirm("确定清空所有玩家与记录吗？此操作不可撤销。", () => {
         state = { players: [], activeId: null };
