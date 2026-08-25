@@ -235,14 +235,13 @@ html, body {
     background: #fde9e3; padding: 1px 5px; border-radius: 4px;
     margin-left: 4px; font-weight: 600; vertical-align: middle;
 }
-.num-input {
-    width: 64px; text-align: center;
-    border: 1px solid var(--line); background: var(--cream);
-    border-radius: 8px; padding: 6px 4px;
-    font-size: 14px; font-weight: 600; color: var(--ink);
-    font-family: inherit;
+.num-stepper.mini {
+    transform: scale(0.92);
+    transform-origin: right center;
 }
-.num-input:focus { outline: 2px solid var(--green-500); background: #fff; }
+.num-stepper.mini button { width: 30px; height: 30px; font-size: 17px; }
+.num-stepper.mini input { width: 44px; font-size: 14px; padding: 4px 0; }
+.income-row .num-stepper { flex-shrink: 0; }
 .calc-display {
     min-width: 64px; text-align: center;
     background: var(--green-100); color: var(--green-700);
@@ -693,14 +692,31 @@ function makeTrackRow(p, key, name, desc, min, max) {
 function makeInputRow(p, key, label, desc, min) {
     const row = document.createElement("div");
     row.className = "income-row";
+    const v = Number(p[key]) || 0;
     row.innerHTML = `
         <div class="label-name">${label}<span class="desc">${desc}</span></div>
-        <input class="num-input" type="number" inputmode="numeric" ${min!==null?`min="${min}"`:""} value="${Number(p[key])||0}" />`;
-    row.querySelector("input").addEventListener("change", (e) => {
-        let v = parseInt(e.target.value, 10);
-        if (isNaN(v)) v = 0;
-        if (min !== null) v = Math.max(min, v);
-        p[key] = v; save(); render();
+        <div class="num-stepper mini">
+            <button data-act="dec" aria-label="减少">−</button>
+            <input type="number" inputmode="numeric" ${min!==null?`min="${min}"`:""} value="${v}" />
+            <button data-act="inc" aria-label="增加">+</button>
+        </div>`;
+    const input = row.querySelector("input");
+    const clamp = (x) => {
+        let n = parseInt(x, 10);
+        if (isNaN(n)) n = 0;
+        if (min !== null) n = Math.max(min, n);
+        return n;
+    };
+    row.querySelector('[data-act="inc"]').addEventListener("click", () => {
+        p[key] = clamp((Number(p[key])||0) + 1); input.value = p[key]; save(); render();
+    });
+    row.querySelector('[data-act="dec"]').addEventListener("click", () => {
+        let n = (Number(p[key])||0) - 1;
+        if (min !== null) n = Math.max(min, n);
+        p[key] = n; input.value = n; save(); render();
+    });
+    input.addEventListener("change", () => {
+        p[key] = clamp(input.value); input.value = p[key]; save(); render();
     });
     return row;
 }
