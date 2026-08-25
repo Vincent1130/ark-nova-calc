@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>方舟动物园 · 计分助手</title>
+<title>方舟动物园 · 休息收入记录</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -14,7 +14,7 @@
     --green-100: #d8f3dc;
     --orange: #e76f51;
     --orange-dark: #c4593c;
-    --sand: #f4ead5;
+    --gold: #e9b949;
     --cream: #faf6ee;
     --ink: #1f2a24;
     --muted: #6c7a72;
@@ -32,19 +32,18 @@ html, body {
     -webkit-font-smoothing: antialiased;
 }
 
-body { padding-bottom: 88px; min-height: 100vh; }
+body { padding-bottom: 80px; min-height: 100vh; }
 
 /* ===== Header ===== */
 .app-header {
     position: sticky; top: 0; z-index: 50;
     background: linear-gradient(135deg, var(--green-900), var(--green-700));
     color: #fff;
-    padding: 14px 16px 0;
+    padding: 14px 16px;
     box-shadow: 0 2px 12px rgba(27, 67, 50, 0.25);
 }
 .app-header .brand {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 12px;
 }
 .app-header .brand .title { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
 .app-header .brand .title .sub { font-size: 11px; font-weight: 400; opacity: 0.7; margin-left: 6px; }
@@ -53,42 +52,17 @@ body { padding-bottom: 88px; min-height: 100vh; }
     background: rgba(255,255,255,0.14);
     border: 1px solid rgba(255,255,255,0.2);
     color: #fff;
-    width: 30px; height: 30px;
+    width: 32px; height: 32px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     transition: background 0.15s;
 }
 .icon-btn:active { background: rgba(255,255,255,0.28); }
 
-.view-tabs {
-    display: flex; gap: 4px;
-    margin: 0 -16px;
-    padding: 0 16px;
-    border-bottom: 0;
-}
-.view-tabs button {
-    flex: 1;
-    background: transparent;
-    border: 0;
-    color: rgba(255,255,255,0.65);
-    padding: 10px 4px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.18s;
-}
-.view-tabs button.active {
-    color: #fff;
-    border-bottom-color: var(--orange);
-    font-weight: 700;
-}
-
-/* ===== Views ===== */
-.view { display: none; padding: 14px 14px 24px; max-width: 760px; margin: 0 auto; }
-.view.active { display: block; }
+/* ===== Main ===== */
+.main { padding: 14px; max-width: 720px; margin: 0 auto; }
 
 /* ===== Player tabs ===== */
 .player-tabs {
@@ -111,7 +85,7 @@ body { padding-bottom: 88px; min-height: 100vh; }
     font-weight: 600;
     color: var(--muted);
     transition: all 0.15s;
-    max-width: 180px;
+    max-width: 200px;
 }
 .player-chip .swatch {
     width: 22px; height: 22px;
@@ -121,7 +95,7 @@ body { padding-bottom: 88px; min-height: 100vh; }
 }
 .player-chip .name {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    max-width: 110px;
+    max-width: 120px;
 }
 .player-chip.active {
     border-color: var(--green-700);
@@ -136,7 +110,7 @@ body { padding-bottom: 88px; min-height: 100vh; }
 .player-chip .score-mini {
     font-size: 11px;
     color: var(--muted);
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 2px;
 }
 .player-chip.active .score-mini { color: var(--orange-dark); }
@@ -160,65 +134,13 @@ body { padding-bottom: 88px; min-height: 100vh; }
     display: flex; align-items: center; gap: 8px;
 }
 .card-head .label .ico { font-size: 16px; }
-.card-head .subtotal {
+.card-head .meta {
     font-size: 13px;
     color: var(--muted);
     font-weight: 600;
 }
-.card-head .subtotal b { color: var(--green-700); font-size: 15px; }
-.card-body { padding: 10px 14px 14px; }
-
-/* ===== Stepper row ===== */
-.row {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 0;
-    border-bottom: 1px dashed var(--line);
-}
-.row:last-child { border-bottom: 0; }
-.row .name { font-size: 14px; color: var(--ink); }
-.row .name .hint { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
-.stepper {
-    display: flex; align-items: center;
-    background: var(--cream);
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    overflow: hidden;
-}
-.stepper button {
-    width: 32px; height: 32px;
-    background: transparent;
-    border: 0;
-    color: var(--green-700);
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.12s;
-}
-.stepper button:active { background: var(--green-100); }
-.stepper .val {
-    min-width: 36px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--ink);
-    padding: 0 4px;
-}
-.num-input {
-    width: 60px;
-    text-align: right;
-    border: 1px solid var(--line);
-    background: var(--cream);
-    border-radius: 8px;
-    padding: 6px 8px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
-    font-family: inherit;
-}
-.num-input:focus { outline: 2px solid var(--green-500); background: #fff; }
+.card-head .meta b { color: var(--green-700); font-size: 15px; }
+.card-body { padding: 12px 14px 14px; }
 
 /* ===== Player header card ===== */
 .player-card-head {
@@ -258,43 +180,159 @@ body { padding-bottom: 88px; min-height: 100vh; }
     padding: 4px 8px;
 }
 
-/* ===== Animal type row ===== */
-.animal-row {
+/* ===== Track rows (盾轨 / 票轨) ===== */
+.track-row {
     display: grid;
-    grid-template-columns: 28px 1fr auto auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 10px 0;
     border-bottom: 1px dashed var(--line);
 }
-.animal-row:last-child { border-bottom: 0; }
-.animal-row .ico { font-size: 18px; text-align: center; }
-.animal-row .label-name { font-size: 14px; }
-.animal-row .label-name .bonus {
-    font-size: 11px; color: var(--orange-dark);
-    display: block; margin-top: 1px;
-    min-height: 14px;
+.track-row:last-child { border-bottom: 0; }
+.track-row .info .name { font-size: 14px; font-weight: 600; }
+.track-row .info .desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.num-stepper {
+    display: flex; align-items: center;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
 }
-.animal-row .count-group {
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
+.num-stepper button {
+    width: 36px; height: 36px;
+    background: transparent;
+    border: 0;
+    color: var(--green-700);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.12s;
+    flex-shrink: 0;
 }
-.animal-row .count-group .cap { font-size: 10px; color: var(--muted); }
-.animal-row .count-group .stepper { transform: scale(0.85); transform-origin: right center; }
-.animal-row .appeal-input { width: 54px; }
+.num-stepper button:active { background: var(--green-100); }
+.num-stepper input {
+    width: 56px;
+    text-align: center;
+    border: 0;
+    background: transparent;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: inherit;
+    padding: 6px 0;
+}
+.num-stepper input:focus { outline: 0; background: #fff; }
 
-/* ===== Enclosure row ===== */
-.enc-row {
+.track-hint {
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--green-100);
+    border-left: 3px solid var(--green-500);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+/* ===== Income round card ===== */
+.round-card {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+    overflow: hidden;
+    border-left: 4px solid var(--green-500);
+}
+.round-card .round-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #fff, #fcfaf3);
+    border-bottom: 1px solid var(--line);
+}
+.round-card .round-head .title {
+    font-size: 14px; font-weight: 700; color: var(--green-900);
+    display: flex; align-items: center; gap: 6px;
+}
+.round-card .round-head .total {
+    font-size: 15px; font-weight: 700; color: var(--orange-dark);
+}
+.round-card .round-head .del {
+    background: transparent; border: 0; color: var(--muted);
+    font-size: 18px; cursor: pointer; padding: 2px 6px; margin-left: 8px;
+}
+.round-card .round-body { padding: 6px 14px 12px; }
+
+.income-row {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 12px;
     padding: 8px 0;
     border-bottom: 1px dashed var(--line);
 }
-.enc-row:last-child { border-bottom: 0; }
-.enc-row .name { font-size: 13px; }
-.enc-row .name .size-appeal { font-size: 11px; color: var(--muted); }
-.enc-row .count-stepper { transform: scale(0.9); transform-origin: right; }
+.income-row:last-child { border-bottom: 0; }
+.income-row .label-name { font-size: 13px; }
+.income-row .label-name .desc { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+.income-row .label-name .badge {
+    display: inline-block;
+    font-size: 10px;
+    color: var(--orange-dark);
+    background: #fde9e3;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    font-weight: 600;
+}
+.num-input {
+    width: 70px;
+    text-align: center;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 7px 6px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    font-family: inherit;
+}
+.num-input:focus { outline: 2px solid var(--green-500); background: #fff; }
+.calc-display {
+    min-width: 70px;
+    text-align: center;
+    background: var(--green-100);
+    color: var(--green-700);
+    border-radius: 8px;
+    padding: 7px 6px;
+    font-size: 15px;
+    font-weight: 700;
+}
+.calc-display.pending {
+    background: #fde9e3;
+    color: var(--orange-dark);
+}
+.row-total {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 6px; padding-top: 8px;
+    border-top: 1.5px solid var(--green-100);
+}
+.row-total .lbl { font-size: 13px; font-weight: 700; color: var(--green-900); }
+.row-total .val { font-size: 18px; font-weight: 800; color: var(--orange-dark); }
+
+.add-round-btn {
+    width: 100%;
+    background: var(--green-700);
+    color: #fff;
+    border: 0;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+.add-round-btn:active { background: var(--green-900); }
+.add-round-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
 
 /* ===== Sticky total bar ===== */
 .total-bar {
@@ -315,88 +353,12 @@ body { padding-bottom: 88px; min-height: 100vh; }
     letter-spacing: -0.5px;
 }
 .total-bar .total .small { font-size: 12px; font-weight: 500; opacity: 0.7; }
-
-/* ===== Summary view ===== */
-.summary-wrap { padding: 14px; }
-.summary-card {
-    background: var(--card);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    margin-bottom: 16px;
-}
-.summary-card.winner { box-shadow: 0 0 0 2px var(--orange), var(--shadow-lg); }
-.summary-card .winner-tag {
-    background: var(--orange);
-    color: #fff;
+.total-bar .tracks {
     font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    display: inline-block;
+    opacity: 0.85;
+    margin-top: 2px;
 }
-.summary-card .player-bar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, #fff, #fcfaf3);
-}
-.summary-card .player-bar .swatch { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.1); }
-.summary-card .player-bar .name { font-size: 15px; font-weight: 700; flex: 1; }
-.summary-card .player-bar .total { font-size: 22px; font-weight: 800; color: var(--green-700); }
-.summary-card .breakdown { padding: 8px 14px 12px; }
-.summary-card .breakdown .line {
-    display: flex; justify-content: space-between;
-    font-size: 13px;
-    padding: 4px 0;
-    color: var(--muted);
-}
-.summary-card .breakdown .line .v { color: var(--ink); font-weight: 600; }
-.summary-card .breakdown .line.subtotal {
-    border-top: 1px solid var(--line);
-    margin-top: 4px;
-    padding-top: 8px;
-    color: var(--green-900);
-    font-weight: 700;
-}
-.summary-card .breakdown .line.subtotal .v { color: var(--green-700); }
-
-.summary-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-}
-.summary-empty .big { font-size: 40px; margin-bottom: 8px; }
-
-/* ===== Rules view ===== */
-.rules-card {
-    background: var(--card);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-}
-.rules-card h3 {
-    font-size: 14px;
-    color: var(--green-900);
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 6px;
-}
-.rules-card p, .rules-card li {
-    font-size: 13px;
-    color: var(--ink);
-    line-height: 1.6;
-    margin-bottom: 4px;
-}
-.rules-card ul { padding-left: 18px; }
-.rules-card .tip {
-    background: var(--green-100);
-    border-left: 3px solid var(--green-500);
-    padding: 8px 10px;
-    margin-top: 8px;
-    font-size: 12px;
-    border-radius: 4px;
-    color: var(--green-900);
-}
+.total-bar .tracks b { font-weight: 700; }
 
 /* ===== Empty state ===== */
 .empty-state {
@@ -405,48 +367,10 @@ body { padding-bottom: 88px; min-height: 100vh; }
     color: var(--muted);
 }
 .empty-state .big { font-size: 48px; margin-bottom: 12px; }
-.empty-state .btn {
-    margin-top: 16px;
-    display: inline-block;
-    background: var(--green-700);
-    color: #fff;
-    padding: 10px 24px;
-    border-radius: 999px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 0;
-    font-size: 14px;
-}
-
-/* ===== Buttons ===== */
-.btn-primary {
-    background: var(--green-700);
-    color: #fff;
-    border: 0;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s;
-}
-.btn-primary:active { background: var(--green-900); }
-.btn-ghost {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--line);
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: inherit;
-}
 
 /* ===== Color picker popover ===== */
 .color-pop {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.4);
     z-index: 100;
     display: none;
@@ -512,7 +436,7 @@ body { padding-bottom: 88px; min-height: 100vh; }
 /* ===== Toast ===== */
 .toast {
     position: fixed;
-    bottom: 100px;
+    bottom: 96px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(27, 42, 36, 0.95);
@@ -526,106 +450,32 @@ body { padding-bottom: 88px; min-height: 100vh; }
     pointer-events: none;
 }
 .toast.show { opacity: 1; }
-
-@media (max-width: 360px) {
-    .animal-row { grid-template-columns: 24px 1fr auto auto; gap: 6px; }
-    .animal-row .appeal-input { width: 46px; }
-}
 </style>
 </head>
 <body>
 
 <header class="app-header">
     <div class="brand">
-        <div class="title">方舟动物园 计分助手<span class="sub">Ark Nova Scorer</span></div>
+        <div class="title">方舟动物园 · 休息收入记录<span class="sub">Break Income Tracker</span></div>
         <div class="actions">
             <button class="icon-btn" id="btn-save" title="保存">💾</button>
             <button class="icon-btn" id="btn-reset" title="重置">↺</button>
         </div>
     </div>
-    <nav class="view-tabs" id="view-tabs">
-        <button data-view="scoring" class="active">计分</button>
-        <button data-view="summary">汇总</button>
-        <button data-view="rules">规则</button>
-    </nav>
 </header>
 
-<!-- ============ Scoring View ============ -->
-<section class="view active" id="view-scoring">
+<main class="main">
     <div id="players-area"></div>
-</section>
-
-<!-- ============ Summary View ============ -->
-<section class="view" id="view-summary">
-    <div class="summary-wrap" id="summary-area"></div>
-</section>
-
-<!-- ============ Rules View ============ -->
-<section class="view" id="view-rules">
-    <div style="max-width:760px;margin:0 auto;padding:14px 14px 24px;">
-        <div class="rules-card">
-            <h3>🎯 总分公式</h3>
-            <p><b>总分 = 吸引力 (Appeal) + 声望 (Reputation)</b></p>
-            <p style="margin-top:6px;color:var(--muted);font-size:12px;">吸引力反映你的动物园对游客的吸引程度；声望反映你对自然保护与科研的贡献。</p>
-        </div>
-
-        <div class="rules-card">
-            <h3>🦁 动物卡牌吸引力</h3>
-            <ul>
-                <li>每张动物卡牌右上角印有<b>吸引力数值</b>（通常 0–7）。</li>
-                <li>放入动物园的动物，将其吸引力累加。</li>
-                <li>抚摸区（Petting Zoo）会将其相邻动物的吸引力<b>翻倍</b>，请手动调整。</li>
-            </ul>
-        </div>
-
-        <div class="rules-card">
-            <h3>🏞️ 场馆吸引力</h3>
-            <ul>
-                <li>普通场馆吸引力 = <b>规格 − 1</b>（规格 2 = 1，规格 3 = 2，规格 4 = 3，规格 5 = 4，规格 6 = 5）。</li>
-                <li>抚摸区本身吸引力为 <b>0</b>，但会翻倍相邻动物的吸引力。</li>
-                <li>季节性场馆按其卡牌印制吸引力计算。</li>
-            </ul>
-        </div>
-
-        <div class="rules-card">
-            <h3>🌍 声望来源</h3>
-            <ul>
-                <li><b>保护项目</b>：每个完成的项目按其卡牌显示的声望计分（通常 1–4）。</li>
-                <li><b>大学卡</b>：每张大学卡 = 1 声望。</li>
-                <li><b>协会行动 + 大学板块</b>：触发时 +1 声望。</li>
-                <li><b>终局奖励</b>：每种动物类型每达成 3 / 5 / 7 张，分别获得 1 / 2 / 3 声望。</li>
-            </ul>
-            <div class="tip">提示：终局动物奖励由本助手根据各动物类型的卡牌数自动计算。</div>
-        </div>
-
-        <div class="rules-card">
-            <h3>🏆 其他修正</h3>
-            <ul>
-                <li>部分保护项目、大学卡、合作方动物园等有终局额外计分，请在「其他修正」中手动加/减。</li>
-                <li>如需扣除扣分项，输入负数即可。</li>
-            </ul>
-        </div>
-
-        <div class="rules-card">
-            <h3>🐟 关于海洋世界扩展</h3>
-            <p>本助手已预留海洋生物类型与扩展相关声望项，可直接使用。</p>
-        </div>
-
-        <div class="rules-card">
-            <h3>💾 数据存储</h3>
-            <p>所有计分数据自动保存在本机浏览器中，关闭页面后下次打开仍在。</p>
-            <p style="margin-top:6px;">点击右上角 ↺ 可清空所有数据，重新开始一局。</p>
-        </div>
-    </div>
-</section>
+</main>
 
 <!-- ============ Sticky total bar ============ -->
 <div class="total-bar" id="total-bar">
     <div>
-        <div class="label">当前玩家总分</div>
+        <div class="label">累计总收入</div>
         <div class="player-name" id="total-bar-name">—</div>
+        <div class="tracks" id="total-bar-tracks"></div>
     </div>
-    <div class="total" id="total-bar-value">0<span class="small"> 分</span></div>
+    <div class="total" id="total-bar-value">0<span class="small"> 钱</span></div>
 </div>
 
 <!-- ============ Color picker popover ============ -->
@@ -654,25 +504,7 @@ body { padding-bottom: 88px; min-height: 100vh; }
 "use strict";
 
 /* ============ Constants ============ */
-const STORAGE_KEY = "ark-nova-scorer-v1";
-
-const ANIMAL_TYPES = [
-    { key: "mammal",     icon: "🦁", name: "哺乳类" },
-    { key: "bird",       icon: "🦅", name: "鸟类" },
-    { key: "reptile",    icon: "🐍", name: "爬行类" },
-    { key: "amphibian",  icon: "🐸", name: "两栖类" },
-    { key: "fish",       icon: "🐠", name: "鱼类" },
-    { key: "invertebrate", icon: "🦋", name: "无脊椎类" },
-    { key: "marine",     icon: "🐬", name: "海洋生物", expansion: true }
-];
-
-const ENCLOSURE_SIZES = [
-    { size: 2, appeal: 1 },
-    { size: 3, appeal: 2 },
-    { size: 4, appeal: 3 },
-    { size: 5, appeal: 4 },
-    { size: 6, appeal: 5 }
-];
+const STORAGE_KEY = "ark-nova-break-income-v1";
 
 const PLAYER_COLORS = [
     "#e63946", "#2a9d8f", "#f4a261", "#457b9d",
@@ -685,8 +517,7 @@ const DEFAULT_NAMES = ["玩家 1", "玩家 2", "玩家 3", "玩家 4", "玩家 5
 /* ============ State ============ */
 let state = {
     players: [],
-    activeId: null,
-    view: "scoring"
+    activeId: null
 };
 
 let pendingColorPickFor = null;
@@ -703,7 +534,6 @@ function load() {
             const parsed = JSON.parse(raw);
             if (parsed && Array.isArray(parsed.players)) {
                 state = parsed;
-                if (!state.view) state.view = "scoring";
                 if (!state.activeId && state.players.length) state.activeId = state.players[0].id;
             }
         }
@@ -711,68 +541,64 @@ function load() {
 }
 
 /* ============ Helpers ============ */
-function uid() { return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function uid() { return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
 
 function newPlayer(idx) {
     return {
         id: uid(),
         name: DEFAULT_NAMES[idx] || ("玩家 " + (idx+1)),
         color: PLAYER_COLORS[idx % PLAYER_COLORS.length],
-        animals: Object.fromEntries(ANIMAL_TYPES.map(t => [t.key, { count: 0, appeal: 0 }])),
-        enclosures: Object.fromEntries(ENCLOSURE_SIZES.map(e => ["s"+e.size, 0])),
-        pettingZones: 0,
-        seasonalAppeal: 0,
-        conservationRep: 0,
-        universityCount: 0,
-        otherRep: 0
+        conservation: 0,   // 盾轨：保护项目点数
+        appeal: 0,         // 票轨：魅力点数
+        rounds: []         // 每轮休息收入记录
     };
 }
 
-function bonusForCount(n) {
-    if (n >= 7) return 3;
-    if (n >= 5) return 2;
-    if (n >= 3) return 1;
+function newRound(p) {
+    // 记录一轮休息时快照当前盾轨/票轨
+    return {
+        id: uid(),
+        conservation: Number(p.conservation) || 0,
+        appeal: Number(p.appeal) || 0,
+        kioskIncome: 0,    // 贩售亭收入（用户输入）
+        cardIncome: 0      // 卡牌额外收入（用户输入）
+    };
+}
+
+/**
+ * 魅力对应收入计算（公式待用户补充）
+ * @param {number} conservation 盾轨（保护项目点数）快照
+ * @param {number} appeal       票轨（魅力点数）快照
+ * @return {number} 本轮休息由魅力对应得到的钱数
+ *
+ * TODO: 待用户提供官方魅力→钱数映射表/公式后在此实现。
+ * 当前返回 0 作为占位，UI 会显示「公式待补充」。
+ */
+function calcAppealIncome(conservation, appeal) {
+    const c = Number(conservation) || 0;
+    const a = Number(appeal) || 0;
+    void c; void a;
     return 0;
 }
 
-function calcPlayer(p) {
-    if (!p) return { animals: 0, enclosures: 0, reputation: 0, total: 0, bonus: 0 };
-    let animalsAppeal = 0, animalsCount = 0, bonus = 0;
-    ANIMAL_TYPES.forEach(t => {
-        const a = p.animals[t.key] || { count: 0, appeal: 0 };
-        animalsAppeal += Number(a.appeal) || 0;
-        animalsCount += Number(a.count) || 0;
-        bonus += bonusForCount(Number(a.count) || 0);
-    });
-    let enclosuresAppeal = Number(p.seasonalAppeal) || 0;
-    ENCLOSURE_SIZES.forEach(e => {
-        const c = Number(p.enclosures["s"+e.size]) || 0;
-        enclosuresAppeal += c * e.appeal;
-    });
-    const conservationRep = Number(p.conservationRep) || 0;
-    const universityRep = (Number(p.universityCount) || 0) * 1;
-    const otherRep = Number(p.otherRep) || 0;
-    const reputation = conservationRep + universityRep + bonus + otherRep;
-    const total = animalsAppeal + enclosuresAppeal + reputation;
-    return {
-        animals: animalsAppeal,
-        animalsCount,
-        enclosures: enclosuresAppeal,
-        conservationRep,
-        universityRep,
-        bonus,
-        otherRep,
-        reputation,
-        total
-    };
+const APPEAL_INCOME_PENDING = true; // 公式是否待补充
+
+function roundAppealIncome(r) {
+    return calcAppealIncome(r.conservation, r.appeal);
+}
+function roundTotal(r) {
+    return roundAppealIncome(r) + (Number(r.kioskIncome) || 0) + (Number(r.cardIncome) || 0);
+}
+function playerTotal(p) {
+    return (p.rounds || []).reduce((s, r) => s + roundTotal(r), 0);
 }
 
 function getActivePlayer() {
     return state.players.find(p => p.id === state.activeId) || state.players[0] || null;
 }
 
-/* ============ Rendering: Scoring View ============ */
-function renderScoring() {
+/* ============ Rendering ============ */
+function render() {
     const area = document.getElementById("players-area");
     area.innerHTML = "";
 
@@ -780,29 +606,28 @@ function renderScoring() {
         area.innerHTML = `
             <div class="empty-state">
                 <div class="big">🦁</div>
-                <div>还没有玩家，先添加一位开始计分吧。</div>
-                <button class="btn" id="empty-add">+ 添加玩家</button>
+                <div>还没有玩家，先添加一位开始记录。</div>
             </div>`;
-        document.getElementById("empty-add").addEventListener("click", () => addPlayer());
+        addAddPlayerChip(area);
         updateTotalBar();
         return;
     }
 
-    // Player chips (tabs)
+    // Player chips
     const tabs = document.createElement("div");
     tabs.className = "player-tabs";
     state.players.forEach(p => {
         const chip = document.createElement("div");
         chip.className = "player-chip" + (p.id === state.activeId ? " active" : "");
-        const score = calcPlayer(p).total;
+        const total = playerTotal(p);
         chip.innerHTML = `
             <div class="swatch" style="background:${p.color}"></div>
             <div class="name">${escapeHtml(p.name)}</div>
-            <div class="score-mini">${score}</div>`;
+            <div class="score-mini">${total}</div>`;
         chip.addEventListener("click", () => {
             state.activeId = p.id;
             save();
-            renderScoring();
+            render();
         });
         tabs.appendChild(chip);
     });
@@ -826,238 +651,225 @@ function renderScoring() {
         <input class="name-input" type="text" maxlength="12" value="${escapeHtml(active.name)}" />
         ${state.players.length > 1 ? '<button class="del-btn" title="删除玩家">🗑</button>' : ''}`;
     area.appendChild(head);
-
     head.querySelector(".color-pick").addEventListener("click", () => openColorPick(active.id));
     head.querySelector(".name-input").addEventListener("change", (e) => {
         active.name = e.target.value.trim() || active.name;
-        save();
-        renderScoring();
+        save(); render();
     });
     const delBtn = head.querySelector(".del-btn");
     if (delBtn) delBtn.addEventListener("click", () => deletePlayer(active.id));
 
-    // Animal card
-    area.appendChild(renderAnimalCard(active));
+    // Tracks card (盾轨 / 票轨)
+    area.appendChild(renderTracksCard(active));
 
-    // Enclosure card
-    area.appendChild(renderEnclosureCard(active));
-
-    // Reputation card
-    area.appendChild(renderReputationCard(active));
+    // Break income rounds
+    area.appendChild(renderRoundsCard(active));
 
     updateTotalBar();
 }
 
-function renderAnimalCard(p) {
-    const card = document.createElement("div");
-    card.className = "card";
-    let totalAnimals = 0, totalAppeal = 0, totalBonus = 0;
-    ANIMAL_TYPES.forEach(t => {
-        const a = p.animals[t.key];
-        totalAnimals += Number(a.count) || 0;
-        totalAppeal += Number(a.appeal) || 0;
-        totalBonus += bonusForCount(Number(a.count) || 0);
-    });
-    card.innerHTML = `
-        <div class="card-head">
-            <div class="label"><span class="ico">🦁</span>动物卡牌</div>
-            <div class="subtotal">吸引力 <b>${totalAppeal}</b> · 终局奖励 <b>+${totalBonus}</b></div>
-        </div>
-        <div class="card-body"></div>`;
-    const body = card.querySelector(".card-body");
-    ANIMAL_TYPES.forEach(t => {
-        const a = p.animals[t.key];
-        const cnt = Number(a.count) || 0;
-        const bonus = bonusForCount(cnt);
-        const bonusTxt = cnt >= 3 ? `终局声望 +${bonus}` : `还需 ${3-cnt} 张得 +1`;
-        const row = document.createElement("div");
-        row.className = "animal-row";
-        row.innerHTML = `
-            <div class="ico">${t.icon}</div>
-            <div class="label-name">
-                ${t.name}${t.expansion ? '<span style="font-size:10px;color:var(--orange-dark)">·扩展</span>' : ''}
-                <span class="bonus">${cnt > 0 ? bonusTxt : "未上场"}</span>
-            </div>
-            <div class="count-group">
-                <span class="cap">张数</span>
-                <div class="stepper">
-                    <button data-act="dec">−</button>
-                    <span class="val">${cnt}</span>
-                    <button data-act="inc">+</button>
-                </div>
-            </div>
-            <input class="num-input appeal-input" type="number" inputmode="numeric" min="0" value="${Number(a.appeal)||0}" title="${t.name}吸引力合计" />`;
-        const stepper = row.querySelector(".stepper");
-        stepper.querySelector('[data-act="inc"]').addEventListener("click", () => {
-            a.count = Math.min(20, cnt + 1); save(); renderScoring();
-        });
-        stepper.querySelector('[data-act="dec"]').addEventListener("click", () => {
-            a.count = Math.max(0, cnt - 1); save(); renderScoring();
-        });
-        row.querySelector(".appeal-input").addEventListener("change", (e) => {
-            a.appeal = Math.max(0, parseInt(e.target.value, 10) || 0); save();
-            renderScoring();
-        });
-        body.appendChild(row);
-    });
-    return card;
+function addAddPlayerChip(parent) {
+    const tabs = document.createElement("div");
+    tabs.className = "player-tabs";
+    const add = document.createElement("div");
+    add.className = "player-chip add";
+    add.innerHTML = "+ 添加玩家";
+    add.addEventListener("click", () => addPlayer());
+    tabs.appendChild(add);
+    parent.appendChild(tabs);
 }
 
-function renderEnclosureCard(p) {
+function renderTracksCard(p) {
     const card = document.createElement("div");
     card.className = "card";
-    let totalEnc = 0;
-    ENCLOSURE_SIZES.forEach(e => {
-        totalEnc += (Number(p.enclosures["s"+e.size]) || 0) * e.appeal;
-    });
-    totalEnc += Number(p.seasonalAppeal) || 0;
     card.innerHTML = `
         <div class="card-head">
-            <div class="label"><span class="ico">🏞️</span>场馆</div>
-            <div class="subtotal">吸引力 <b>${totalEnc}</b></div>
-        </div>
-        <div class="card-body"></div>`;
-    const body = card.querySelector(".card-body");
-    ENCLOSURE_SIZES.forEach(e => {
-        const cnt = Number(p.enclosures["s"+e.size]) || 0;
-        const row = document.createElement("div");
-        row.className = "enc-row";
-        row.innerHTML = `
-            <div class="name">规格 ${e.size} 场馆<span class="size-appeal">每个 +${e.appeal} 吸引力</span></div>
-            <div class="stepper count-stepper">
-                <button data-act="dec">−</button>
-                <span class="val">${cnt}</span>
-                <button data-act="inc">+</button>
-            </div>
-            <div class="num-input" style="width:48px;background:var(--cream);text-align:center;">${cnt * e.appeal}</div>`;
-        row.querySelector('[data-act="inc"]').addEventListener("click", () => {
-            p.enclosures["s"+e.size] = Math.min(12, cnt + 1); save(); renderScoring();
-        });
-        row.querySelector('[data-act="dec"]').addEventListener("click", () => {
-            p.enclosures["s"+e.size] = Math.max(0, cnt - 1); save(); renderScoring();
-        });
-        body.appendChild(row);
-    });
-    // Seasonal
-    const sRow = document.createElement("div");
-    sRow.className = "row";
-    sRow.innerHTML = `
-        <div class="name">季节性场馆<span class="hint">输入其卡牌印制吸引力合计</span></div>
-        <span></span>
-        <input class="num-input" type="number" inputmode="numeric" min="0" value="${Number(p.seasonalAppeal)||0}" />`;
-    sRow.querySelector("input").addEventListener("change", (e) => {
-        p.seasonalAppeal = Math.max(0, parseInt(e.target.value,10) || 0); save(); renderScoring();
-    });
-    body.appendChild(sRow);
-    return card;
-}
-
-function renderReputationCard(p) {
-    const card = document.createElement("div");
-    card.className = "card";
-    const c = calcPlayer(p);
-    card.innerHTML = `
-        <div class="card-head">
-            <div class="label"><span class="ico">🌍</span>声望</div>
-            <div class="subtotal">总声望 <b>${c.reputation}</b></div>
+            <div class="label"><span class="ico">🎯</span>当前状态</div>
+            <div class="meta">盾轨 <b>${Number(p.conservation)||0}</b> · 票轨 <b>${Number(p.appeal)||0}</b></div>
         </div>
         <div class="card-body"></div>`;
     const body = card.querySelector(".card-body");
 
-    const rows = [
-        { key: "conservationRep", label: "保护项目声望", hint: "完成项目的声望合计（通常 1–4 / 张）", min: 0 },
-        { key: "universityCount",  label: "大学卡数",    hint: "每张 +1 声望", stepper: true, suffix: "× 1 = " + c.universityRep },
-        { key: "otherRep",         label: "其他修正",    hint: "终局额外计分 / 扣分（可负数）", min: -50 }
-    ];
-    rows.forEach(r => {
-        const row = document.createElement("div");
-        row.className = "row";
-        if (r.stepper) {
-            const v = Number(p[r.key]) || 0;
-            row.innerHTML = `
-                <div class="name">${r.label}<span class="hint">${r.hint}</span></div>
-                <div class="stepper">
-                    <button data-act="dec">−</button>
-                    <span class="val">${v}</span>
-                    <button data-act="inc">+</button>
-                </div>
-                <div class="num-input" style="width:60px;background:var(--cream);text-align:center;">${r.suffix}</div>`;
-            row.querySelector('[data-act="inc"]').addEventListener("click", () => {
-                p[r.key] = Math.min(20, v + 1); save(); renderScoring();
-            });
-            row.querySelector('[data-act="dec"]').addEventListener("click", () => {
-                p[r.key] = Math.max(0, v - 1); save(); renderScoring();
-            });
-        } else {
-            const v = Number(p[r.key]) || 0;
-            row.innerHTML = `
-                <div class="name">${r.label}<span class="hint">${r.hint}</span></div>
-                <span></span>
-                <input class="num-input" type="number" inputmode="numeric" value="${v}" />`;
-            row.querySelector("input").addEventListener("change", (e) => {
-                let val = parseInt(e.target.value, 10);
-                if (isNaN(val)) val = 0;
-                if (r.min !== undefined) val = Math.max(r.min, val);
-                p[r.key] = val; save(); renderScoring();
-            });
-        }
-        body.appendChild(row);
-    });
+    // 盾轨
+    const shieldRow = document.createElement("div");
+    shieldRow.className = "track-row";
+    shieldRow.innerHTML = `
+        <div class="info">
+            <div class="name">🛡️ 盾轨 · 保护项目点数</div>
+            <div class="desc">完成保护项目 / 触发协会行动时前进</div>
+        </div>
+        <div class="num-stepper">
+            <button data-act="dec">−</button>
+            <input type="number" inputmode="numeric" min="0" max="50" value="${Number(p.conservation)||0}" />
+            <button data-act="inc">+</button>
+        </div>`;
+    bindStepper(shieldRow, p, "conservation", 0, 50);
+    body.appendChild(shieldRow);
 
-    // Bonus auto-display
-    const bRow = document.createElement("div");
-    bRow.className = "row";
-    bRow.innerHTML = `
-        <div class="name">终局动物奖励<span class="hint">3 张 +1 / 5 张 +2 / 7 张 +3（自动）</span></div>
-        <span></span>
-        <div class="num-input" style="width:60px;background:var(--green-100);color:var(--green-700);text-align:center;font-weight:700;">+${c.bonus}</div>`;
-    body.appendChild(bRow);
+    // 票轨
+    const appealRow = document.createElement("div");
+    appealRow.className = "track-row";
+    appealRow.innerHTML = `
+        <div class="info">
+            <div class="name">🎫 票轨 · 魅力点数</div>
+            <div class="desc">放入动物 / 场馆等提升魅力时前进</div>
+        </div>
+        <div class="num-stepper">
+            <button data-act="dec">−</button>
+            <input type="number" inputmode="numeric" min="0" max="200" value="${Number(p.appeal)||0}" />
+            <button data-act="inc">+</button>
+        </div>`;
+    bindStepper(appealRow, p, "appeal", 0, 200);
+    body.appendChild(appealRow);
+
+    const hint = document.createElement("div");
+    hint.className = "track-hint";
+    hint.textContent = "票轨位置决定每轮休息时「魅力对应收入」。盾轨用于游戏结束判定（两轨相遇即终局）。";
+    body.appendChild(hint);
 
     return card;
 }
 
-/* ============ Rendering: Summary View ============ */
-function renderSummary() {
-    const area = document.getElementById("summary-area");
-    area.innerHTML = "";
-    if (state.players.length === 0) {
-        area.innerHTML = `
-            <div class="summary-empty">
-                <div class="big">📊</div>
-                <div>还没有玩家数据</div>
-            </div>`;
-        return;
+function bindStepper(row, p, key, min, max) {
+    const input = row.querySelector("input");
+    const inc = () => {
+        let v = (Number(p[key]) || 0) + 1;
+        if (v > max) v = max;
+        p[key] = v; input.value = v; save();
+        onTrackChange(p);
+    };
+    const dec = () => {
+        let v = (Number(p[key]) || 0) - 1;
+        if (v < min) v = min;
+        p[key] = v; input.value = v; save();
+        onTrackChange(p);
+    };
+    row.querySelector('[data-act="inc"]').addEventListener("click", inc);
+    row.querySelector('[data-act="dec"]').addEventListener("click", dec);
+    input.addEventListener("change", () => {
+        let v = parseInt(input.value, 10);
+        if (isNaN(v)) v = min;
+        v = Math.max(min, Math.min(max, v));
+        p[key] = v; input.value = v; save();
+        onTrackChange(p);
+    });
+}
+
+function onTrackChange(p) {
+    // 票轨/盾轨变化时刷新整页（卡片头汇总、底部条、各轮魅力对应收入展示）
+    render();
+}
+
+function renderRoundsCard(p) {
+    const card = document.createElement("div");
+    card.className = "card";
+    const total = playerTotal(p);
+    card.innerHTML = `
+        <div class="card-head">
+            <div class="label"><span class="ico">💰</span>休息收入记录</div>
+            <div class="meta">累计 <b>${total}</b> 钱</div>
+        </div>
+        <div class="card-body" id="rounds-body"></div>`;
+    const body = card.querySelector("#rounds-body");
+
+    if (!p.rounds || p.rounds.length === 0) {
+        const empty = document.createElement("div");
+        empty.style.cssText = "text-align:center;color:var(--muted);padding:18px 0 14px;font-size:13px;";
+        empty.textContent = "还没有休息记录。点击下方按钮添加一轮休息。";
+        body.appendChild(empty);
+    } else {
+        p.rounds.forEach((r, i) => {
+            body.appendChild(renderRoundCard(p, r, i + 1));
+        });
     }
-    const ranked = state.players.map(p => ({ p, c: calcPlayer(p) }))
-        .sort((a,b) => b.c.total - a.c.total);
-    const maxScore = ranked[0].c.total;
-    ranked.forEach((entry, idx) => {
-        const { p, c } = entry;
-        const isWinner = ranked.length > 1 && c.total === maxScore;
-        const card = document.createElement("div");
-        card.className = "summary-card" + (isWinner ? " winner" : "");
-        card.innerHTML = `
-            <div class="player-bar">
-                ${isWinner ? '<span class="winner-tag">🏆 冠军</span>' : ''}
-                <div class="swatch" style="background:${p.color}"></div>
-                <div class="name">${escapeHtml(p.name)}${idx === 0 && !isWinner ? ' · 领先' : ''}</div>
-                <div class="total">${c.total}</div>
-            </div>
-            <div class="breakdown">
-                <div class="line"><span>🦁 动物吸引力</span><span class="v">${c.animals}</span></div>
-                <div class="line"><span>🏞️ 场馆吸引力</span><span class="v">${c.enclosures}</span></div>
-                <div class="line subtotal"><span>吸引力小计</span><span class="v">${c.animals + c.enclosures}</span></div>
-                <div class="line"><span>🌍 保护项目</span><span class="v">${c.conservationRep}</span></div>
-                <div class="line"><span>🎓 大学卡</span><span class="v">${c.universityRep}</span></div>
-                <div class="line"><span>⭐ 终局动物奖励</span><span class="v">+${c.bonus}</span></div>
-                <div class="line"><span>➕ 其他修正</span><span class="v">${c.otherRep >= 0 ? '+' : ''}${c.otherRep}</span></div>
-                <div class="line subtotal"><span>声望小计</span><span class="v">${c.reputation}</span></div>
-                <div class="line subtotal" style="border-top:2px solid var(--green-500);margin-top:6px;padding-top:10px;font-size:15px;">
-                    <span>总分</span><span class="v" style="font-size:18px;">${c.total}</span>
-                </div>
-            </div>`;
-        area.appendChild(card);
+
+    const addBtn = document.createElement("button");
+    addBtn.className = "add-round-btn";
+    addBtn.textContent = "+ 记录一轮休息";
+    addBtn.addEventListener("click", () => {
+        p.rounds.push(newRound(p));
+        save(); render();
     });
+    body.appendChild(addBtn);
+
+    return card;
+}
+
+function renderRoundCard(p, r, idx) {
+    const appealInc = roundAppealIncome(r);
+    const total = roundTotal(r);
+    const rc = document.createElement("div");
+    rc.className = "round-card";
+    rc.innerHTML = `
+        <div class="round-head">
+            <div class="title">🛏️ 第 ${idx} 轮休息</div>
+            <div>
+                <span class="total">+${total} 钱</span>
+                <button class="del" title="删除本轮">✕</button>
+            </div>
+        </div>
+        <div class="round-body"></div>`;
+    const rb = rc.querySelector(".round-body");
+
+    // 快照信息
+    const snap = document.createElement("div");
+    snap.style.cssText = "font-size:11px;color:var(--muted);padding:6px 0 4px;";
+    snap.innerHTML = `记录时状态：🛡️ 盾轨 <b style="color:var(--ink)">${Number(r.conservation)||0}</b> · 🎫 票轨 <b style="color:var(--ink)">${Number(r.appeal)||0}</b>`;
+    rb.appendChild(snap);
+
+    // 魅力对应收入（计算展示）
+    const appealRow = document.createElement("div");
+    appealRow.className = "income-row";
+    const pending = APPEAL_INCOME_PENDING;
+    appealRow.innerHTML = `
+        <div class="label-name">
+            魅力对应收入
+            ${pending ? '<span class="badge">公式待补充</span>' : ''}
+            <span class="desc">由票轨位置自动计算</span>
+        </div>
+        <div class="calc-display${pending ? ' pending' : ''}">${appealInc}</div>`;
+    rb.appendChild(appealRow);
+
+    // 贩售亭收入
+    const kioskRow = document.createElement("div");
+    kioskRow.className = "income-row";
+    kioskRow.innerHTML = `
+        <div class="label-name">
+            贩售亭收入
+            <span class="desc">每座贩售亭对应钱数（手动输入）</span>
+        </div>
+        <input class="num-input" type="number" inputmode="numeric" min="0" value="${Number(r.kioskIncome)||0}" />`;
+    kioskRow.querySelector("input").addEventListener("change", (e) => {
+        r.kioskIncome = Math.max(0, parseInt(e.target.value, 10) || 0);
+        save(); render();
+    });
+    rb.appendChild(kioskRow);
+
+    // 卡牌额外收入
+    const cardRow = document.createElement("div");
+    cardRow.className = "income-row";
+    cardRow.innerHTML = `
+        <div class="label-name">
+            卡牌额外收入
+            <span class="desc">卡牌效果带来的额外钱（可负数）</span>
+        </div>
+        <input class="num-input" type="number" inputmode="numeric" value="${Number(r.cardIncome)||0}" />`;
+    cardRow.querySelector("input").addEventListener("change", (e) => {
+        let v = parseInt(e.target.value, 10);
+        if (isNaN(v)) v = 0;
+        r.cardIncome = v; save(); render();
+    });
+    rb.appendChild(cardRow);
+
+    // 本轮合计
+    const totalRow = document.createElement("div");
+    totalRow.className = "row-total";
+    totalRow.innerHTML = `<span class="lbl">本轮合计</span><span class="val">+${total} 钱</span>`;
+    rb.appendChild(totalRow);
+
+    rc.querySelector(".del").addEventListener("click", () => deleteRound(p, r.id));
+
+    return rc;
 }
 
 /* ============ Total Bar ============ */
@@ -1065,27 +877,26 @@ function updateTotalBar() {
     const p = getActivePlayer();
     const nameEl = document.getElementById("total-bar-name");
     const valEl = document.getElementById("total-bar-value");
+    const tracksEl = document.getElementById("total-bar-tracks");
     if (!p) {
         nameEl.textContent = "—";
-        valEl.innerHTML = '0<span class="small"> 分</span>';
+        tracksEl.textContent = "";
+        valEl.innerHTML = '0<span class="small"> 钱</span>';
         return;
     }
-    const c = calcPlayer(p);
     nameEl.textContent = p.name;
-    valEl.innerHTML = `${c.total}<span class="small"> 分</span>`;
+    tracksEl.innerHTML = `🛡️ 盾轨 <b>${Number(p.conservation)||0}</b> · 🎫 票轨 <b>${Number(p.appeal)||0}</b>`;
+    const total = playerTotal(p);
+    valEl.innerHTML = `${total}<span class="small"> 钱</span>`;
 }
 
 /* ============ Player Management ============ */
 function addPlayer() {
-    if (state.players.length >= 6) {
-        toast("最多支持 6 位玩家");
-        return;
-    }
+    if (state.players.length >= 6) { toast("最多支持 6 位玩家"); return; }
     const p = newPlayer(state.players.length);
     state.players.push(p);
     state.activeId = p.id;
-    save();
-    renderScoring();
+    save(); render();
     toast("已添加 " + p.name);
 }
 
@@ -1098,9 +909,14 @@ function deletePlayer(id) {
         if (state.activeId === id) {
             state.activeId = state.players[0] ? state.players[0].id : null;
         }
-        save();
-        renderScoring();
-        renderSummary();
+        save(); render();
+    });
+}
+
+function deleteRound(p, rid) {
+    showConfirm("删除这一轮休息记录？", () => {
+        const i = (p.rounds || []).findIndex(r => r.id === rid);
+        if (i >= 0) { p.rounds.splice(i, 1); save(); render(); }
     });
 }
 
@@ -1116,7 +932,7 @@ function openColorPick(playerId) {
         el.style.background = c;
         el.addEventListener("click", () => {
             const p = state.players.find(x => x.id === pendingColorPickFor);
-            if (p) { p.color = c; save(); renderScoring(); }
+            if (p) { p.color = c; save(); render(); }
             pop.classList.remove("show");
         });
         sw.appendChild(el);
@@ -1154,34 +970,14 @@ function toast(msg) {
     toastTimer = setTimeout(() => el.classList.remove("show"), 1500);
 }
 
-/* ============ View Switch ============ */
-function setView(v) {
-    state.view = v;
-    document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
-    document.getElementById("view-" + v).classList.add("active");
-    document.querySelectorAll("#view-tabs button").forEach(b => {
-        b.classList.toggle("active", b.dataset.view === v);
-    });
-    if (v === "summary") renderSummary();
-    if (v === "scoring") renderScoring();
-    save();
-}
-document.getElementById("view-tabs").addEventListener("click", (e) => {
-    const b = e.target.closest("button[data-view]");
-    if (b) setView(b.dataset.view);
-});
-
 /* ============ Top buttons ============ */
 document.getElementById("btn-save").addEventListener("click", () => {
-    save();
-    toast("已保存到本机");
+    save(); toast("已保存到本机");
 });
 document.getElementById("btn-reset").addEventListener("click", () => {
-    showConfirm("确定清空所有玩家与计分数据吗？此操作不可撤销。", () => {
-        state = { players: [], activeId: null, view: "scoring" };
-        save();
-        renderScoring();
-        renderSummary();
+    showConfirm("确定清空所有玩家与记录吗？此操作不可撤销。", () => {
+        state = { players: [], activeId: null };
+        save(); render();
         toast("已重置");
     });
 });
@@ -1197,13 +993,11 @@ function escapeHtml(s) {
 function init() {
     load();
     if (state.players.length === 0) {
-        // Default 2 players
         state.players = [newPlayer(0), newPlayer(1)];
         state.activeId = state.players[0].id;
         save();
     }
-    if (state.view) setView(state.view); else setView("scoring");
-    renderScoring();
+    render();
 }
 init();
 
