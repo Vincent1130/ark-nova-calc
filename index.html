@@ -381,6 +381,127 @@ html, body {
 @media (min-width: 1100px) {
     .players-grid { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
 }
+
+/* ===== Break progress (header) ===== */
+.break-progress {
+    background: rgba(0,0,0,0.18);
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 10px;
+    color: #fff;
+}
+.break-progress .lbl { font-size: 12px; font-weight: 600; opacity: 0.92; }
+.break-progress .num-stepper {
+    background: rgba(255,255,255,0.95);
+    border: 0;
+}
+.break-progress .num-stepper button { color: var(--green-900); width: 28px; height: 28px; font-size: 16px; }
+.break-progress .num-stepper input { color: var(--ink); width: 36px; font-size: 14px; padding: 3px 0; }
+.break-progress .max { font-size: 12px; opacity: 0.85; }
+.break-progress .ready-badge {
+    margin-left: auto;
+    background: var(--orange);
+    color: #fff; font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
+    cursor: pointer; box-shadow: 0 1px 6px rgba(231,111,81,0.45);
+    animation: bpulse 1.4s infinite;
+}
+@keyframes bpulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* ===== Break modal ===== */
+.break-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 120;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+}
+.break-modal.show { display: flex; }
+.break-modal .panel {
+    background: #fff; border-radius: 16px;
+    max-width: 520px; width: 100%; max-height: 90vh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.break-modal .panel .head {
+    padding: 14px 18px;
+    background: linear-gradient(135deg, var(--green-900), var(--green-700));
+    color: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.break-modal .panel .head h3 { font-size: 16px; font-weight: 700; }
+.break-modal .panel .head .step-counter { font-size: 12px; opacity: 0.9; font-weight: 600; }
+.break-modal .panel .body {
+    padding: 14px 18px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+}
+.break-step {
+    position: relative;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: #fff;
+    transition: all 0.2s;
+}
+.break-step:last-child { margin-bottom: 0; }
+.break-step.active {
+    border-color: var(--green-500);
+    background: var(--green-100);
+    box-shadow: 0 2px 10px rgba(64, 145, 108, 0.18);
+}
+.break-step.done::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(108, 122, 114, 0.55);
+    border-radius: 12px;
+    pointer-events: none;
+}
+.break-step .step-head { display: flex; align-items: center; gap: 8px; }
+.break-step .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green-700); color: #fff;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+}
+.break-step.done .step-num { background: var(--muted); }
+.break-step .step-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+.break-step .step-desc { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+.break-step .step-incomes {
+    margin-top: 8px;
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+.break-step .step-incomes .row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--line);
+}
+.break-step .step-incomes .row:last-child { border-bottom: 0; }
+.break-step .step-incomes .row .v { font-weight: 700; color: var(--orange-dark); }
+.break-modal .panel .footer {
+    padding: 12px 18px;
+    border-top: 1px solid var(--line);
+    display: flex; gap: 10px;
+}
+.break-modal .panel .footer button {
+    flex: 1; padding: 11px; border-radius: 8px; border: 0;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.break-modal .panel .footer .next { background: var(--green-700); color: #fff; }
+.break-modal .panel .footer .skip { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
 </style>
 </head>
 <body>
@@ -393,6 +514,7 @@ html, body {
             <button class="icon-btn" id="btn-reset" title="重置">↺</button>
         </div>
     </div>
+    <div class="break-progress" id="break-progress"></div>
 </header>
 
 <!-- ============ Mobile view ============ -->
@@ -434,6 +556,21 @@ html, body {
     </div>
 </div>
 
+<!-- ============ Break steps modal ============ -->
+<div class="break-modal" id="break-modal">
+    <div class="panel">
+        <div class="head">
+            <h3>休息步骤</h3>
+            <div class="step-counter" id="break-counter">1 / 6</div>
+        </div>
+        <div class="body" id="break-modal-body"></div>
+        <div class="footer">
+            <button class="skip" id="break-skip">跳过 · 直接完成</button>
+            <button class="next" id="break-next">下一步</button>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -450,9 +587,10 @@ const DEFAULT_NAMES = ["玩家 1", "玩家 2", "玩家 3", "玩家 4"];
 const MAX_PLAYERS = 4;
 
 /* ============ State ============ */
-let state = { players: [], activeId: null };
+let state = { players: [], activeId: null, breakProgress: 0 };
 let pendingColorPickFor = null;
 let pendingConfirmCb = null;
+let breakStep = 0; // 休息弹窗当前步骤（运行期，无需持久化）
 
 /* ============ Persistence ============ */
 function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
@@ -463,6 +601,7 @@ function load() {
             const parsed = JSON.parse(raw);
             if (parsed && Array.isArray(parsed.players)) {
                 state = parsed;
+                if (typeof state.breakProgress !== "number") state.breakProgress = 0;
                 if (!state.activeId && state.players.length) state.activeId = state.players[0].id;
             }
         }
@@ -515,6 +654,123 @@ function getActivePlayer() {
     return state.players.find(p => p.id === state.activeId) || state.players[0] || null;
 }
 
+/* ============ Break progress (休息进度) ============ */
+/**
+ * 不同人数对应的休息进度上限
+ * 单人不记录（max=0，UI 隐藏）；2人=9，3人=12，4人=15
+ */
+function breakMaxFor(n) {
+    if (n <= 1) return 0;
+    if (n === 2) return 9;
+    if (n === 3) return 12;
+    return 15;
+}
+
+const BREAK_STEPS = [
+    { title: "弃牌至手牌上限", desc: "将手牌弃至上限（默认3张）" },
+    { title: "移除行动卡牌标记", desc: "清理已使用卡牌上的所有标记" },
+    { title: "补充协会版图", desc: "重新放置协会卡牌" },
+    { title: "填补展示区", desc: "从牌堆补齐展示区卡牌" },
+    { title: "拿取收入", desc: "按当前收入表领取每人休息所得", incomes: true },
+    { title: "休息进度清0", desc: "完成本次休息，将进度重置为 0" }
+];
+
+function renderBreakProgress() {
+    const el = document.getElementById("break-progress");
+    if (!el) return;
+    const n = state.players.length;
+    const max = breakMaxFor(n);
+    if (max === 0) { el.style.display = "none"; return; }
+    el.style.display = "flex";
+    let cur = Number(state.breakProgress) || 0;
+    if (cur > max) { state.breakProgress = max; save(); cur = max; }
+    const ready = cur >= max;
+    el.innerHTML = `
+        <div class="lbl">休息进度</div>
+        <div class="num-stepper">
+            <button data-act="dec">−</button>
+            <input type="number" inputmode="numeric" min="0" max="${max}" value="${cur}" />
+            <button data-act="inc">+</button>
+        </div>
+        <div class="max">/ ${max}</div>
+        ${ready ? '<div class="ready-badge" id="ready-badge">休息!</div>' : ''}`;
+    const input = el.querySelector("input");
+    el.querySelector('[data-act="inc"]').addEventListener("click", () => changeBreakProgress(1));
+    el.querySelector('[data-act="dec"]').addEventListener("click", () => changeBreakProgress(-1));
+    input.addEventListener("change", () => {
+        let v = parseInt(input.value, 10);
+        if (isNaN(v)) v = 0;
+        v = Math.max(0, Math.min(max, v));
+        state.breakProgress = v; save(); renderBreakProgress();
+        if (v >= max) openBreakModal();
+    });
+    const rb = document.getElementById("ready-badge");
+    if (rb) rb.addEventListener("click", () => openBreakModal());
+}
+
+function changeBreakProgress(delta) {
+    const n = state.players.length;
+    const max = breakMaxFor(n);
+    if (max === 0) return;
+    let v = (Number(state.breakProgress) || 0) + delta;
+    v = Math.max(0, Math.min(max, v));
+    state.breakProgress = v; save(); renderBreakProgress();
+    if (delta > 0 && v >= max) openBreakModal();
+}
+
+/* ===== Break modal ===== */
+function openBreakModal() {
+    if (state.players.length < 2) return;
+    breakStep = 0;
+    renderBreakSteps();
+    document.getElementById("break-modal").classList.add("show");
+}
+function closeBreakModal() {
+    document.getElementById("break-modal").classList.remove("show");
+}
+function renderBreakSteps() {
+    const body = document.getElementById("break-modal-body");
+    body.innerHTML = "";
+    BREAK_STEPS.forEach((s, i) => {
+        let cls = "";
+        if (i < breakStep) cls = "done";
+        else if (i === breakStep) cls = "active";
+        const div = document.createElement("div");
+        div.className = "break-step " + cls;
+        let extra = "";
+        if (s.incomes) {
+            let rows = "";
+            state.players.forEach(p => {
+                rows += `<div class="row"><span>${escapeHtml(p.name)}</span><span class="v">${breakIncome(p)} 钱</span></div>`;
+            });
+            extra = `<div class="step-incomes">${rows}</div>`;
+        }
+        div.innerHTML = `
+            <div class="step-head"><span class="step-num">${i+1}</span><span class="step-title">${s.title}</span></div>
+            <div class="step-desc">${s.desc}</div>
+            ${extra}`;
+        body.appendChild(div);
+    });
+    document.getElementById("break-counter").textContent = `${Math.min(breakStep+1, BREAK_STEPS.length)} / ${BREAK_STEPS.length}`;
+    const nextBtn = document.getElementById("break-next");
+    nextBtn.textContent = (breakStep >= BREAK_STEPS.length - 1) ? "完成休息" : "下一步";
+}
+function nextBreakStep() {
+    breakStep++;
+    if (breakStep >= BREAK_STEPS.length) {
+        state.breakProgress = 0; save(); renderBreakProgress();
+        closeBreakModal();
+        toast("休息完成");
+        return;
+    }
+    renderBreakSteps();
+}
+function skipBreak() {
+    state.breakProgress = 0; save(); renderBreakProgress();
+    closeBreakModal();
+    toast("已直接完成休息");
+}
+
 /* ============ Rendering ============ */
 function render() {
     if (state.players.length === 0) {
@@ -527,6 +783,7 @@ function render() {
         document.getElementById("grid-area").innerHTML = "";
         const ea = document.getElementById("empty-add");
         if (ea) ea.addEventListener("click", () => addPlayer());
+        renderBreakProgress();
         updateTotalBar();
         return;
     }
@@ -538,6 +795,7 @@ function render() {
     // ---- Grid (tablet) ----
     renderGrid();
 
+    renderBreakProgress();
     updateTotalBar();
 }
 
@@ -824,11 +1082,16 @@ function toast(msg) {
 document.getElementById("btn-save").addEventListener("click", () => { save(); toast("已保存到本机"); });
 document.getElementById("btn-reset").addEventListener("click", () => {
     showConfirm("确定清空所有玩家与记录吗？此操作不可撤销。", () => {
-        state = { players: [], activeId: null };
+        state = { players: [], activeId: null, breakProgress: 0 };
+        closeBreakModal();
         save(); render();
         toast("已重置");
     });
 });
+
+/* ============ Break modal buttons ============ */
+document.getElementById("break-next").addEventListener("click", () => nextBreakStep());
+document.getElementById("break-skip").addEventListener("click", () => skipBreak());
 
 /* ============ Utils ============ */
 function escapeHtml(s) {
