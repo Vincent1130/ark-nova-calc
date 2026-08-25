@@ -1082,6 +1082,9 @@ document.getElementById("btn-save").addEventListener("click", () => { save(); to
 document.getElementById("btn-reset").addEventListener("click", () => {
     showConfirm("确定清空所有玩家与记录吗？此操作不可撤销。", () => {
         state = { players: [], activeId: null, breakProgress: 0 };
+        // 重建默认 2 人，与首次加载 init() 行为一致
+        state.players = [newPlayer(0), newPlayer(1)];
+        state.activeId = state.players[0].id;
         closeBreakModal();
         save(); render();
         toast("已重置");
